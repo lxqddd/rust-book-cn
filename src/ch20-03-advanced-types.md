@@ -138,4 +138,32 @@ Rust 需要知道为特定类型的任何值分配多少内存，并且一个类
 
 我们可以将 `str` 与各种指针结合使用：例如，`Box<str>` 或 `Rc<str>`。事实上，你以前见过这个，但使用了一个不同的动态大小类型：特性。每个特性都是一个动态大小类型，我们可以通过使用特性的名称来引用它。在第 18 章的 [“使用允许不同类型值的特性对象”][using-trait-objects-that-allow-for-values-of-different-types]<!-- ignore --> 中，我们提到要使用特性作为特性对象，我们必须将它们放在指针后面，例如 `&dyn Trait` 或 `Box<dyn Trait>`（`Rc<dyn Trait>` 也可以工作）。
 
-为了处理 DSTs，Rust 提供了 `Sized` 特性来确定类型的
+为了处理动态大小类型（DSTs），Rust 提供了 `Sized` trait 来确定一个类型的大小是否在编译时已知。这个 trait 会自动为所有在编译时已知大小的类型实现。此外，Rust 隐式地为每个泛型函数添加了 `Sized` 的约束。也就是说，像这样的泛型函数定义：
+
+```rust,ignore
+{{#rustdoc_include ../listings/ch20-advanced-features/no-listing-12-generic-fn-definition/src/lib.rs}}
+```
+
+实际上会被视为我们写了这样的代码：
+
+```rust,ignore
+{{#rustdoc_include ../listings/ch20-advanced-features/no-listing-13-generic-implicit-sized-bound/src/lib.rs}}
+```
+
+默认情况下，泛型函数只会作用于那些在编译时已知大小的类型。然而，你可以使用以下特殊语法来放宽这个限制：
+
+```rust,ignore
+{{#rustdoc_include ../listings/ch20-advanced-features/no-listing-14-generic-maybe-sized/src/lib.rs}}
+```
+
+`?Sized` 的 trait 约束意味着“`T` 可能是 `Sized`，也可能不是 `Sized`”，这种表示法覆盖了泛型类型必须在编译时已知大小的默认行为。这种含义的 `?Trait` 语法仅适用于 `Sized`，不适用于其他 trait。
+
+还要注意，我们将 `t` 参数的类型从 `T` 切换为 `&T`。因为类型可能不是 `Sized`，我们需要在某种指针后面使用它。在这种情况下，我们选择了引用。
+
+接下来，我们将讨论函数和闭包！
+
+[encapsulation-that-hides-implementation-details]: ch18-01-what-is-oo.html#encapsulation-that-hides-implementation-details
+[string-slices]: ch04-03-slices.html#string-slices
+[the-match-control-flow-operator]: ch06-02-match.html#the-match-control-flow-operator
+[using-trait-objects-that-allow-for-values-of-different-types]: ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types
+[using-the-newtype-pattern]: ch20-02-advanced-traits.html#using-the-newtype-pattern-to-implement-external-traits-on-external-types
