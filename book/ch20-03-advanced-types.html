@@ -162,9 +162,9 @@
                         <h2 id="高级类型"><a class="header" href="#高级类型">高级类型</a></h2>
 <p>Rust 的类型系统有一些我们之前提到但尚未讨论的特性。我们将从讨论 newtype 模式开始，探讨为什么 newtype 作为类型是有用的。然后我们将转向类型别名，这是一个与 newtype 类似但语义略有不同的特性。我们还将讨论 <code>!</code> 类型和动态大小类型。</p>
 <h3 id="使用-newtype-模式实现类型安全和抽象"><a class="header" href="#使用-newtype-模式实现类型安全和抽象">使用 Newtype 模式实现类型安全和抽象</a></h3>
-<p>本节假设你已经阅读了前面的章节 [“使用 Newtype 模式在外部类型上实现外部特性。”][using-the-newtype-pattern]<!-- ignore --> newtype 模式在我们目前讨论的任务之外也非常有用，包括静态地确保值永远不会混淆，并指示值的单位。你在 Listing 20-16 中看到了使用 newtype 来指示单位的示例：回想一下，<code>Millimeters</code> 和 <code>Meters</code> 结构体将 <code>u32</code> 值包装在 newtype 中。如果我们编写一个参数类型为 <code>Millimeters</code> 的函数，我们将无法编译一个意外地尝试使用 <code>Meters</code> 类型的值或普通的 <code>u32</code> 值调用该函数的程序。</p>
+<p>本节假设你已经阅读了前面的章节 <a href="ch20-02-advanced-traits.html#using-the-newtype-pattern-to-implement-external-traits-on-external-types">“使用 Newtype 模式在外部类型上实现外部特性。”</a><!-- ignore --> newtype 模式在我们目前讨论的任务之外也非常有用，包括静态地确保值永远不会混淆，并指示值的单位。你在 Listing 20-16 中看到了使用 newtype 来指示单位的示例：回想一下，<code>Millimeters</code> 和 <code>Meters</code> 结构体将 <code>u32</code> 值包装在 newtype 中。如果我们编写一个参数类型为 <code>Millimeters</code> 的函数，我们将无法编译一个意外地尝试使用 <code>Meters</code> 类型的值或普通的 <code>u32</code> 值调用该函数的程序。</p>
 <p>我们还可以使用 newtype 模式来抽象掉类型的某些实现细节：新类型可以公开一个与私有内部类型的 API 不同的公共 API。</p>
-<p>Newtype 还可以隐藏内部实现。例如，我们可以提供一个 <code>People</code> 类型来包装一个 <code>HashMap&lt;i32, String&gt;</code>，它存储与名称相关联的人的 ID。使用 <code>People</code> 的代码只会与我们提供的公共 API 交互，例如向 <code>People</code> 集合添加名称字符串的方法；该代码不需要知道我们在内部为名称分配了一个 <code>i32</code> ID。newtype 模式是一种轻量级的方式来实现封装以隐藏实现细节，我们在第 18 章的 [“隐藏实现细节的封装”][encapsulation-that-hides-implementation-details]<!-- ignore --> 中讨论过。</p>
+<p>Newtype 还可以隐藏内部实现。例如，我们可以提供一个 <code>People</code> 类型来包装一个 <code>HashMap&lt;i32, String&gt;</code>，它存储与名称相关联的人的 ID。使用 <code>People</code> 的代码只会与我们提供的公共 API 交互，例如向 <code>People</code> 集合添加名称字符串的方法；该代码不需要知道我们在内部为名称分配了一个 <code>i32</code> ID。newtype 模式是一种轻量级的方式来实现封装以隐藏实现细节，我们在第 18 章的 <a href="ch18-01-what-is-oo.html#encapsulation-that-hides-implementation-details">“隐藏实现细节的封装”</a><!-- ignore --> 中讨论过。</p>
 <h3 id="使用类型别名创建类型同义词"><a class="header" href="#使用类型别名创建类型同义词">使用类型别名创建类型同义词</a></h3>
 <p>Rust 提供了声明 <em>类型别名</em> 的能力，以便为现有类型提供另一个名称。为此，我们使用 <code>type</code> 关键字。例如，我们可以创建别名 <code>Kilometers</code> 为 <code>i32</code>，如下所示：</p>
 <pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
@@ -310,7 +310,7 @@ pub trait Write {
 </span><span class="boring">}</span></code></pre>
 <figcaption>Listing 20-27: 一个以 <code>continue</code> 结尾的 <code>match</code> 分支</figcaption>
 </figure>
-<p>当时，我们跳过了这段代码中的一些细节。在第 6 章的 [“<code>match</code> 控制流操作符”][the-match-control-flow-operator]<!-- ignore --> 中，我们讨论了 <code>match</code> 分支必须都返回相同的类型。因此，例如，以下代码不起作用：</p>
+<p>当时，我们跳过了这段代码中的一些细节。在第 6 章的 <a href="ch06-02-match.html#the-match-control-flow-operator">“<code>match</code> 控制流操作符”</a><!-- ignore --> 中，我们讨论了 <code>match</code> 分支必须都返回相同的类型。因此，例如，以下代码不起作用：</p>
 <pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
 </span><span class="boring">    let guess = "3";
 </span>    let guess = match guess.trim().parse() {
@@ -355,9 +355,23 @@ pub trait Write {
     let s2: str = "How's it going?";
 <span class="boring">}</span></code></pre>
 <p>Rust 需要知道为特定类型的任何值分配多少内存，并且一个类型的所有值必须使用相同数量的内存。如果 Rust 允许我们编写这段代码，这两个 <code>str</code> 值将需要占用相同数量的空间。但它们有不同的长度：<code>s1</code> 需要 12 字节的存储空间，而 <code>s2</code> 需要 15 字节。这就是为什么不可能创建一个持有动态大小类型的变量。</p>
-<p>那么我们该怎么办？在这种情况下，你已经知道答案：我们将 <code>s1</code> 和 <code>s2</code> 的类型改为 <code>&amp;str</code> 而不是 <code>str</code>。回想一下第 4 章的 [“字符串切片”][string-slices]<!-- ignore -->，切片数据结构只存储切片的起始位置和长度。因此，尽管 <code>&amp;T</code> 是一个存储 <code>T</code> 所在内存地址的单个值，<code>&amp;str</code> 是 <em>两个</em> 值：<code>str</code> 的地址和它的长度。因此，我们可以在编译时知道 <code>&amp;str</code> 值的大小：它是 <code>usize</code> 长度的两倍。也就是说，我们总是知道 <code>&amp;str</code> 的大小，无论它引用的字符串有多长。一般来说，这是在 Rust 中使用动态大小类型的方式：它们有一个额外的元数据位，用于存储动态信息的大小。动态大小类型的黄金法则是，我们必须始终将动态大小类型的值放在某种指针后面。</p>
-<p>我们可以将 <code>str</code> 与各种指针结合使用：例如，<code>Box&lt;str&gt;</code> 或 <code>Rc&lt;str&gt;</code>。事实上，你以前见过这个，但使用了一个不同的动态大小类型：特性。每个特性都是一个动态大小类型，我们可以通过使用特性的名称来引用它。在第 18 章的 [“使用允许不同类型值的特性对象”][using-trait-objects-that-allow-for-values-of-different-types]<!-- ignore --> 中，我们提到要使用特性作为特性对象，我们必须将它们放在指针后面，例如 <code>&amp;dyn Trait</code> 或 <code>Box&lt;dyn Trait&gt;</code>（<code>Rc&lt;dyn Trait&gt;</code> 也可以工作）。</p>
-<p>为了处理 DSTs，Rust 提供了 <code>Sized</code> 特性来确定类型的</p>
+<p>那么我们该怎么办？在这种情况下，你已经知道答案：我们将 <code>s1</code> 和 <code>s2</code> 的类型改为 <code>&amp;str</code> 而不是 <code>str</code>。回想一下第 4 章的 <a href="ch04-03-slices.html#string-slices">“字符串切片”</a><!-- ignore -->，切片数据结构只存储切片的起始位置和长度。因此，尽管 <code>&amp;T</code> 是一个存储 <code>T</code> 所在内存地址的单个值，<code>&amp;str</code> 是 <em>两个</em> 值：<code>str</code> 的地址和它的长度。因此，我们可以在编译时知道 <code>&amp;str</code> 值的大小：它是 <code>usize</code> 长度的两倍。也就是说，我们总是知道 <code>&amp;str</code> 的大小，无论它引用的字符串有多长。一般来说，这是在 Rust 中使用动态大小类型的方式：它们有一个额外的元数据位，用于存储动态信息的大小。动态大小类型的黄金法则是，我们必须始终将动态大小类型的值放在某种指针后面。</p>
+<p>我们可以将 <code>str</code> 与各种指针结合使用：例如，<code>Box&lt;str&gt;</code> 或 <code>Rc&lt;str&gt;</code>。事实上，你以前见过这个，但使用了一个不同的动态大小类型：特性。每个特性都是一个动态大小类型，我们可以通过使用特性的名称来引用它。在第 18 章的 <a href="ch18-02-trait-objects.html#using-trait-objects-that-allow-for-values-of-different-types">“使用允许不同类型值的特性对象”</a><!-- ignore --> 中，我们提到要使用特性作为特性对象，我们必须将它们放在指针后面，例如 <code>&amp;dyn Trait</code> 或 <code>Box&lt;dyn Trait&gt;</code>（<code>Rc&lt;dyn Trait&gt;</code> 也可以工作）。</p>
+<p>为了处理动态大小类型（DSTs），Rust 提供了 <code>Sized</code> trait 来确定一个类型的大小是否在编译时已知。这个 trait 会自动为所有在编译时已知大小的类型实现。此外，Rust 隐式地为每个泛型函数添加了 <code>Sized</code> 的约束。也就是说，像这样的泛型函数定义：</p>
+<pre><code class="language-rust ignore">fn generic&lt;T&gt;(t: T) {
+    // --snip--
+}</code></pre>
+<p>实际上会被视为我们写了这样的代码：</p>
+<pre><code class="language-rust ignore">fn generic&lt;T: Sized&gt;(t: T) {
+    // --snip--
+}</code></pre>
+<p>默认情况下，泛型函数只会作用于那些在编译时已知大小的类型。然而，你可以使用以下特殊语法来放宽这个限制：</p>
+<pre><code class="language-rust ignore">fn generic&lt;T: ?Sized&gt;(t: &amp;T) {
+    // --snip--
+}</code></pre>
+<p><code>?Sized</code> 的 trait 约束意味着“<code>T</code> 可能是 <code>Sized</code>，也可能不是 <code>Sized</code>”，这种表示法覆盖了泛型类型必须在编译时已知大小的默认行为。这种含义的 <code>?Trait</code> 语法仅适用于 <code>Sized</code>，不适用于其他 trait。</p>
+<p>还要注意，我们将 <code>t</code> 参数的类型从 <code>T</code> 切换为 <code>&amp;T</code>。因为类型可能不是 <code>Sized</code>，我们需要在某种指针后面使用它。在这种情况下，我们选择了引用。</p>
+<p>接下来，我们将讨论函数和闭包！</p>
 
                     </main>
 
