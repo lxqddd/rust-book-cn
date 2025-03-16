@@ -1,0 +1,400 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>测试组织 - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="测试组织"><a class="header" href="#测试组织">测试组织</a></h2>
+<p>正如本章开头提到的，测试是一个复杂的领域，不同的人使用不同的术语和组织方式。Rust 社区将测试分为两大类：单元测试和集成测试。<strong>单元测试</strong>通常较小且更集中，一次只测试一个模块，并且可以测试私有接口。<strong>集成测试</strong>则完全独立于你的库，它们像其他外部代码一样使用你的代码，只使用公共接口，并且可能在每个测试中涉及多个模块。</p>
+<p>编写这两种测试对于确保库的各个部分单独和整体都能按预期工作非常重要。</p>
+<h3 id="单元测试"><a class="header" href="#单元测试">单元测试</a></h3>
+<p>单元测试的目的是将代码的每个单元与其他代码隔离开来进行测试，以便快速定位代码是否按预期工作。你会将单元测试放在 <code>src</code> 目录中，与它们测试的代码放在同一个文件中。惯例是在每个文件中创建一个名为 <code>tests</code> 的模块来包含测试函数，并使用 <code>cfg(test)</code> 注解该模块。</p>
+<h4 id="测试模块和-cfgtest"><a class="header" href="#测试模块和-cfgtest">测试模块和 <code>#[cfg(test)]</code></a></h4>
+<p><code>tests</code> 模块上的 <code>#[cfg(test)]</code> 注解告诉 Rust 只在运行 <code>cargo test</code> 时编译和运行测试代码，而不是在运行 <code>cargo build</code> 时。这样当你只想构建库时可以节省编译时间，并且由于测试代码不包含在编译结果中，可以节省编译产物的空间。你会看到，由于集成测试放在不同的目录中，它们不需要 <code>#[cfg(test)]</code> 注解。然而，由于单元测试与代码放在同一个文件中，你会使用 <code>#[cfg(test)]</code> 来指定它们不应包含在编译结果中。</p>
+<p>回想一下，当我们在本章的第一节生成新的 <code>adder</code> 项目时，Cargo 为我们生成了以下代码：</p>
+<p><span class="filename">文件名: src/lib.rs</span></p>
+<pre><code class="language-rust noplayground">pub fn add(left: u64, right: u64) -&gt; u64 {
+    left + right
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_works() {
+        let result = add(2, 2);
+        assert_eq!(result, 4);
+    }
+}</code></pre>
+<p>在自动生成的 <code>tests</code> 模块上，属性 <code>cfg</code> 代表 <strong>配置</strong>，并告诉 Rust 只有在特定配置选项下才包含以下项。在这种情况下，配置选项是 <code>test</code>，这是 Rust 提供的用于编译和运行测试的选项。通过使用 <code>cfg</code> 属性，Cargo 只在我们主动运行 <code>cargo test</code> 时编译我们的测试代码。这包括可能在这个模块中的任何辅助函数，以及用 <code>#[test]</code> 注解的函数。</p>
+<h4 id="测试私有函数"><a class="header" href="#测试私有函数">测试私有函数</a></h4>
+<p>测试社区内部对于是否应该直接测试私有函数存在争议，而其他语言使得测试私有函数变得困难或不可能。无论你遵循哪种测试理念，Rust 的隐私规则确实允许你测试私有函数。考虑 Listing 11-12 中的代码，其中包含私有函数 <code>internal_adder</code>。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">pub fn add_two(a: usize) -&gt; usize {
+    internal_adder(a, 2)
+}
+
+fn internal_adder(left: usize, right: usize) -&gt; usize {
+    left + right
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn internal() {
+        let result = internal_adder(2, 2);
+        assert_eq!(result, 4);
+    }
+}</code></pre>
+<figcaption>Listing 11-12: 测试私有函数</figcaption>
+</figure>
+<p>注意，<code>internal_adder</code> 函数没有标记为 <code>pub</code>。测试只是 Rust 代码，<code>tests</code> 模块只是另一个模块。正如我们在<a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html">“模块树中引用项的路径”</a><!-- ignore -->中讨论的那样，子模块中的项可以使用其祖先模块中的项。在这个测试中，我们使用 <code>use super::*</code> 将 <code>tests</code> 模块的父模块的所有项引入作用域，然后测试可以调用 <code>internal_adder</code>。如果你认为不应该测试私有函数，Rust 中没有任何东西会强迫你这样做。</p>
+<h3 id="集成测试"><a class="header" href="#集成测试">集成测试</a></h3>
+<p>在 Rust 中，集成测试完全独立于你的库。它们像其他代码一样使用你的库，这意味着它们只能调用库的公共 API 中的函数。它们的目的是测试库的许多部分是否能正确协同工作。单独工作正常的代码单元在集成时可能会出现问题，因此集成代码的测试覆盖也很重要。要创建集成测试，首先需要一个 <code>tests</code> 目录。</p>
+<h4 id="tests-目录"><a class="header" href="#tests-目录"><code>tests</code> 目录</a></h4>
+<p>我们在项目目录的顶层创建一个 <code>tests</code> 目录，与 <code>src</code> 目录并列。Cargo 知道要在这个目录中查找集成测试文件。然后我们可以创建任意数量的测试文件，Cargo 会将每个文件编译为一个独立的 crate。</p>
+<p>让我们创建一个集成测试。在 <code>src/lib.rs</code> 文件中仍然包含 Listing 11-12 的代码，创建一个 <code>tests</code> 目录，并创建一个名为 <code>tests/integration_test.rs</code> 的新文件。你的目录结构应该如下所示：</p>
+<pre><code class="language-text">adder
+├── Cargo.lock
+├── Cargo.toml
+├── src
+│   └── lib.rs
+└── tests
+    └── integration_test.rs
+</code></pre>
+<p>将 Listing 11-13 中的代码输入到 <code>tests/integration_test.rs</code> 文件中。</p>
+<figure class="listing">
+<span class="file-name">Filename: tests/integration_test.rs</span>
+<pre><code class="language-rust ignore">use adder::add_two;
+
+#[test]
+fn it_adds_two() {
+    let result = add_two(2);
+    assert_eq!(result, 4);
+}</code></pre>
+<figcaption>Listing 11-13: <code>adder</code> crate 中函数的集成测试</figcaption>
+</figure>
+<p><code>tests</code> 目录中的每个文件都是一个独立的 crate，因此我们需要将我们的库引入每个测试 crate 的作用域。为此，我们在代码顶部添加 <code>use adder::add_two;</code>，这在单元测试中是不需要的。</p>
+<p>我们不需要在 <code>tests/integration_test.rs</code> 中使用 <code>#[cfg(test)]</code> 注解任何代码。Cargo 会特殊处理 <code>tests</code> 目录，并且只在我们运行 <code>cargo test</code> 时编译该目录中的文件。现在运行 <code>cargo test</code>：</p>
+<pre><code class="language-console">$ cargo test
+   Compiling adder v0.1.0 (file:///projects/adder)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.31s
+     Running unittests src/lib.rs (target/debug/deps/adder-1082c4b063a8fbe6)
+
+running 1 test
+test tests::internal ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/integration_test.rs (target/debug/deps/integration_test-1082c4b063a8fbe6)
+
+running 1 test
+test it_adds_two ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests adder
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+</code></pre>
+<p>输出的三个部分包括单元测试、集成测试和文档测试。请注意，如果某个部分的任何测试失败，后续部分将不会运行。例如，如果单元测试失败，将不会有集成测试和文档测试的输出，因为这些测试只有在所有单元测试都通过时才会运行。</p>
+<p>单元测试的第一部分与我们之前看到的一样：每个单元测试一行（我们在 Listing 11-12 中添加了一个名为 <code>internal</code> 的测试），然后是单元测试的总结行。</p>
+<p>集成测试部分以 <code>Running tests/integration_test.rs</code> 开始。接下来是该集成测试中每个测试函数的一行，以及集成测试结果的总结行，紧接着是 <code>Doc-tests adder</code> 部分。</p>
+<p>每个集成测试文件都有自己的部分，因此如果我们在 <code>tests</code> 目录中添加更多文件，将会有更多的集成测试部分。</p>
+<p>我们仍然可以通过将测试函数的名称作为参数传递给 <code>cargo test</code> 来运行特定的集成测试函数。要运行特定集成测试文件中的所有测试，请使用 <code>cargo test</code> 的 <code>--test</code> 参数，后跟文件名：</p>
+<pre><code class="language-console">$ cargo test --test integration_test
+   Compiling adder v0.1.0 (file:///projects/adder)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.64s
+     Running tests/integration_test.rs (target/debug/deps/integration_test-82e7799c1bc62298)
+
+running 1 test
+test it_adds_two ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+</code></pre>
+<p>此命令仅运行 <code>tests/integration_test.rs</code> 文件中的测试。</p>
+<h4 id="集成测试中的子模块"><a class="header" href="#集成测试中的子模块">集成测试中的子模块</a></h4>
+<p>随着你添加更多的集成测试，你可能希望在 <code>tests</code> 目录中创建更多文件来帮助组织它们；例如，你可以按它们测试的功能对测试函数进行分组。如前所述，<code>tests</code> 目录中的每个文件都被编译为独立的 crate，这对于创建独立的作用域以更接近地模拟最终用户使用你的 crate 的方式非常有用。然而，这意味着 <code>tests</code> 目录中的文件与 <code>src</code> 目录中的文件行为不同，正如你在第 7 章中学到的关于如何将代码分离到模块和文件中的内容。</p>
+<p>当你有一组辅助函数要在多个集成测试文件中使用，并尝试按照第 7 章中<a href="ch07-05-separating-modules-into-different-files.html">“将模块分离到不同文件”</a><!-- ignore -->部分的步骤将它们提取到一个公共模块时，<code>tests</code> 目录文件的不同行为最为明显。例如，如果我们创建 <code>tests/common.rs</code> 并在其中放置一个名为 <code>setup</code> 的函数，我们可以向 <code>setup</code> 添加一些代码，以便从多个测试文件中的多个测试函数调用：</p>
+<p><span class="filename">文件名: tests/common.rs</span></p>
+<pre><code class="language-rust noplayground">pub fn setup() {
+    // setup code specific to your library's tests would go here
+}</code></pre>
+<p>当我们再次运行测试时，我们会在测试输出中看到 <code>common.rs</code> 文件的新部分，即使该文件不包含任何测试函数，我们也没有从任何地方调用 <code>setup</code> 函数：</p>
+<pre><code class="language-console">$ cargo test
+   Compiling adder v0.1.0 (file:///projects/adder)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.89s
+     Running unittests src/lib.rs (target/debug/deps/adder-92948b65e88960b4)
+
+running 1 test
+test tests::internal ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/common.rs (target/debug/deps/common-92948b65e88960b4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/integration_test.rs (target/debug/deps/integration_test-92948b65e88960b4)
+
+running 1 test
+test it_adds_two ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests adder
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+</code></pre>
+<p>在测试结果中看到 <code>common</code> 并显示 <code>running 0 tests</code> 并不是我们想要的。我们只是想与其他集成测试文件共享一些代码。为了避免 <code>common</code> 出现在测试输出中，我们不会创建 <code>tests/common.rs</code>，而是创建 <code>tests/common/mod.rs</code>。项目目录现在如下所示：</p>
+<pre><code class="language-text">├── Cargo.lock
+├── Cargo.toml
+├── src
+│   └── lib.rs
+└── tests
+    ├── common
+    │   └── mod.rs
+    └── integration_test.rs
+</code></pre>
+<p>这是 Rust 也理解的旧命名约定，我们在第 7 章的<a href="ch07-05-separating-modules-into-different-files.html#alternate-file-paths">“替代文件路径”</a><!-- ignore -->中提到过。以这种方式命名文件告诉 Rust 不要将 <code>common</code> 模块视为集成测试文件。当我们将 <code>setup</code> 函数代码移动到 <code>tests/common/mod.rs</code> 并删除 <code>tests/common.rs</code> 文件时，测试输出中的部分将不再出现。<code>tests</code> 目录的子目录中的文件不会被编译为独立的 crate，也不会在测试输出中有部分。</p>
+<p>在我们创建 <code>tests/common/mod.rs</code> 之后，我们可以从任何集成测试文件中将其作为模块使用。以下是从 <code>tests/integration_test.rs</code> 中的 <code>it_adds_two</code> 测试调用 <code>setup</code> 函数的示例：</p>
+<p><span class="filename">文件名: tests/integration_test.rs</span></p>
+<pre><code class="language-rust ignore">use adder::add_two;
+
+mod common;
+
+#[test]
+fn it_adds_two() {
+    common::setup();
+
+    let result = add_two(2);
+    assert_eq!(result, 4);
+}</code></pre>
+<p>注意，<code>mod common;</code> 声明与我们在 Listing 7-21 中演示的模块声明相同。然后，在测试函数中，我们可以调用 <code>common::setup()</code> 函数。</p>
+<h4 id="二进制-crate-的集成测试"><a class="header" href="#二进制-crate-的集成测试">二进制 crate 的集成测试</a></h4>
+<p>如果我们的项目是一个只包含 <code>src/main.rs</code> 文件而没有 <code>src/lib.rs</code> 文件的二进制 crate，我们无法在 <code>tests</code> 目录中创建集成测试，并使用 <code>use</code> 语句将 <code>src/main.rs</code> 文件中定义的函数引入作用域。只有库 crate 会暴露其他 crate 可以使用的函数；二进制 crate 旨在独立运行。</p>
+<p>这是 Rust 项目提供二进制文件时通常有一个简单的 <code>src/main.rs</code> 文件调用 <code>src/lib.rs</code> 文件中的逻辑的原因之一。使用这种结构，集成测试<strong>可以</strong>通过 <code>use</code> 测试库 crate 以使重要功能可用。如果重要功能正常工作，<code>src/main.rs</code> 文件中的少量代码也会正常工作，而这少量代码不需要测试。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>Rust 的测试功能提供了一种指定代码应如何运行的方式，以确保即使在你进行更改时，它仍能按预期工作。单元测试分别测试库的不同部分，并且可以测试私有实现细节。集成测试检查库的许多部分是否能正确协同工作，并且它们使用库的公共 API 来测试代码，就像外部代码使用它一样。尽管 Rust 的类型系统和所有权规则有助于防止某些类型的错误，但测试对于减少与代码预期行为相关的逻辑错误仍然很重要。</p>
+<p>让我们结合你在本章和之前章节中学到的知识来做一个项目吧！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch11-02-running-tests.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch12-00-an-io-project.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch11-02-running-tests.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch12-00-an-io-project.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

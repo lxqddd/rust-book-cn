@@ -1,0 +1,500 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>泛型数据类型 - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="泛型数据类型"><a class="header" href="#泛型数据类型">泛型数据类型</a></h2>
+<p>我们使用泛型来为函数签名或结构体等项创建定义，然后可以将其用于许多不同的具体数据类型。首先，我们来看看如何使用泛型定义函数、结构体、枚举和方法。然后我们将讨论泛型如何影响代码性能。</p>
+<h3 id="在函数定义中"><a class="header" href="#在函数定义中">在函数定义中</a></h3>
+<p>当定义一个使用泛型的函数时，我们将泛型放在函数的签名中，通常我们会在这里指定参数和返回值的数据类型。这样做使我们的代码更加灵活，并为函数的调用者提供更多功能，同时防止代码重复。</p>
+<p>继续我们的 <code>largest</code> 函数，Listing 10-4 展示了两个函数，它们都在切片中查找最大值。然后我们将这些函数合并为一个使用泛型的单一函数。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">fn largest_i32(list: &amp;[i32]) -&gt; &amp;i32 {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn largest_char(list: &amp;[char]) -&gt; &amp;char {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest_i32(&amp;number_list);
+    println!("The largest number is {result}");
+<span class="boring">    assert_eq!(*result, 100);
+</span>
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest_char(&amp;char_list);
+    println!("The largest char is {result}");
+<span class="boring">    assert_eq!(*result, 'y');
+</span>}</code></pre></pre>
+<figcaption>Listing 10-4: 两个函数，仅在名称和签名中的类型上有所不同</figcaption>
+</figure>
+<p><code>largest_i32</code> 函数是我们在 Listing 10-3 中提取的函数，它在切片中查找最大的 <code>i32</code>。<code>largest_char</code> 函数在切片中查找最大的 <code>char</code>。函数体中的代码相同，因此我们通过在单一函数中引入泛型类型参数来消除重复。</p>
+<p>为了在新函数中参数化类型，我们需要为类型参数命名，就像我们为函数的值参数命名一样。你可以使用任何标识符作为类型参数名称。但我们将使用 <code>T</code>，因为按照惯例，Rust 中的类型参数名称很短，通常只有一个字母，并且 Rust 的类型命名约定是驼峰式命名法。<code>T</code> 是 <em>type</em> 的缩写，是大多数 Rust 程序员的默认选择。</p>
+<p>当我们在函数体中使用参数时，我们必须在签名中声明参数名称，以便编译器知道该名称的含义。同样，当我们在函数签名中使用类型参数名称时，我们必须在使用之前声明类型参数名称。为了定义泛型 <code>largest</code> 函数，我们将类型名称声明放在尖括号 <code>&lt;&gt;</code> 中，放在函数名称和参数列表之间，如下所示：</p>
+<pre><code class="language-rust ignore">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {</code></pre>
+<p>我们将这个定义理解为：函数 <code>largest</code> 对某个类型 <code>T</code> 是泛型的。该函数有一个名为 <code>list</code> 的参数，它是类型 <code>T</code> 的值的切片。<code>largest</code> 函数将返回对相同类型 <code>T</code> 的值的引用。</p>
+<p>Listing 10-5 展示了使用泛型数据类型在其签名中的组合 <code>largest</code> 函数定义。该列表还展示了如何使用 <code>i32</code> 值或 <code>char</code> 值的切片调用该函数。请注意，此代码尚无法编译，但我们将在本章稍后修复它。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile">fn largest&lt;T&gt;(list: &amp;[T]) -&gt; &amp;T {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&amp;number_list);
+    println!("The largest number is {result}");
+
+    let char_list = vec!['y', 'm', 'a', 'q'];
+
+    let result = largest(&amp;char_list);
+    println!("The largest char is {result}");
+}</code></pre>
+<figcaption>Listing 10-5: 使用泛型类型参数的 <code>largest</code> 函数；此代码尚无法编译</figcaption>
+</figure>
+<p>如果我们现在编译此代码，我们将得到以下错误：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0369]: binary operation `&gt;` cannot be applied to type `&amp;T`
+ --&gt; src/main.rs:5:17
+  |
+5 |         if item &gt; largest {
+  |            ---- ^ ------- &amp;T
+  |            |
+  |            &amp;T
+  |
+help: consider restricting type parameter `T` with trait `PartialOrd`
+  |
+1 | fn largest&lt;T: std::cmp::PartialOrd&gt;(list: &amp;[T]) -&gt; &amp;T {
+  |             ++++++++++++++++++++++
+
+For more information about this error, try `rustc --explain E0369`.
+error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
+</code></pre>
+<p>帮助文本提到了 <code>std::cmp::PartialOrd</code>，这是一个 <em>trait</em>，我们将在下一节中讨论 trait。现在，只需知道此错误表明 <code>largest</code> 的函数体不适用于 <code>T</code> 可能的所有类型。因为我们希望在函数体中比较类型 <code>T</code> 的值，所以我们只能使用可以排序的类型。为了启用比较，标准库提供了 <code>std::cmp::PartialOrd</code> trait，你可以在类型上实现它（有关此 trait 的更多信息，请参见附录 C）。通过遵循帮助文本的建议，我们将 <code>T</code> 的有效类型限制为仅实现 <code>PartialOrd</code> 的类型，此示例将编译，因为标准库在 <code>i32</code> 和 <code>char</code> 上都实现了 <code>PartialOrd</code>。</p>
+<h3 id="在结构体定义中"><a class="header" href="#在结构体定义中">在结构体定义中</a></h3>
+<p>我们还可以使用 <code>&lt;&gt;</code> 语法定义一个或多个字段使用泛型类型参数的结构体。Listing 10-6 定义了一个 <code>Point&lt;T&gt;</code> 结构体，用于保存任何类型的 <code>x</code> 和 <code>y</code> 坐标值。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let integer = Point { x: 5, y: 10 };
+    let float = Point { x: 1.0, y: 4.0 };
+}</code></pre></pre>
+<figcaption>Listing 10-6: 一个 <code>Point&lt;T&gt;</code> 结构体，保存类型 <code>T</code> 的 <code>x</code> 和 <code>y</code> 值</figcaption>
+</figure>
+<p>在结构体定义中使用泛型的语法与函数定义中的语法类似。首先，我们在结构体名称后面的尖括号内声明类型参数的名称。然后我们在结构体定义中使用泛型类型，而不是指定具体的数据类型。</p>
+<p>请注意，因为我们只使用了一个泛型类型来定义 <code>Point&lt;T&gt;</code>，所以这个定义表示 <code>Point&lt;T&gt;</code> 结构体对某个类型 <code>T</code> 是泛型的，并且字段 <code>x</code> 和 <code>y</code> 都是相同的类型，无论该类型是什么。如果我们创建一个 <code>Point&lt;T&gt;</code> 实例，其中包含不同类型的值，如 Listing 10-7 所示，我们的代码将无法编译。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile">struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let wont_work = Point { x: 5, y: 4.0 };
+}</code></pre>
+<figcaption>Listing 10-7: 字段 <code>x</code> 和 <code>y</code> 必须是相同类型，因为它们具有相同的泛型数据类型 <code>T</code>。</figcaption>
+</figure>
+<p>在这个例子中，当我们将整数值 <code>5</code> 赋给 <code>x</code> 时，我们让编译器知道泛型类型 <code>T</code> 对于这个 <code>Point&lt;T&gt;</code> 实例将是一个整数。然后当我们为 <code>y</code> 指定 <code>4.0</code> 时，我们将其定义为与 <code>x</code> 相同的类型，我们将得到一个类型不匹配的错误，如下所示：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling chapter10 v0.1.0 (file:///projects/chapter10)
+error[E0308]: mismatched types
+ --&gt; src/main.rs:7:38
+  |
+7 |     let wont_work = Point { x: 5, y: 4.0 };
+  |                                      ^^^ expected integer, found floating-point number
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `chapter10` (bin "chapter10") due to 1 previous error
+</code></pre>
+<p>为了定义一个 <code>Point</code> 结构体，其中 <code>x</code> 和 <code>y</code> 都是泛型但可以有不同的类型，我们可以使用多个泛型类型参数。例如，在 Listing 10-8 中，我们将 <code>Point</code> 的定义更改为对类型 <code>T</code> 和 <code>U</code> 是泛型的，其中 <code>x</code> 是类型 <code>T</code>，<code>y</code> 是类型 <code>U</code>。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">struct Point&lt;T, U&gt; {
+    x: T,
+    y: U,
+}
+
+fn main() {
+    let both_integer = Point { x: 5, y: 10 };
+    let both_float = Point { x: 1.0, y: 4.0 };
+    let integer_and_float = Point { x: 5, y: 4.0 };
+}</code></pre></pre>
+<figcaption>Listing 10-8: 一个 <code>Point&lt;T, U&gt;</code> 对两种类型是泛型的，因此 <code>x</code> 和 <code>y</code> 可以是不同类型的值</figcaption>
+</figure>
+<p>现在所有显示的 <code>Point</code> 实例都是允许的！你可以在定义中使用任意多个泛型类型参数，但使用过多会使代码难以阅读。如果你发现代码中需要大量泛型类型，这可能表明你的代码需要重构为更小的部分。</p>
+<h3 id="在枚举定义中"><a class="header" href="#在枚举定义中">在枚举定义中</a></h3>
+<p>正如我们对结构体所做的那样，我们可以定义枚举以在其变体中保存泛型数据类型。让我们再看一下标准库提供的 <code>Option&lt;T&gt;</code> 枚举，我们在第 6 章中使用过它：</p>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Option&lt;T&gt; {
+    Some(T),
+    None,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>现在这个定义应该对你来说更有意义了。如你所见，<code>Option&lt;T&gt;</code> 枚举对类型 <code>T</code> 是泛型的，并且有两个变体：<code>Some</code>，它保存一个类型 <code>T</code> 的值，以及一个 <code>None</code> 变体，它不保存任何值。通过使用 <code>Option&lt;T&gt;</code> 枚举，我们可以表达可选值的抽象概念，并且因为 <code>Option&lt;T&gt;</code> 是泛型的，所以无论可选值的类型是什么，我们都可以使用这个抽象。</p>
+<p>枚举也可以使用多个泛型类型。我们在第 9 章中使用的 <code>Result</code> 枚举的定义就是一个例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>Result</code> 枚举对两种类型 <code>T</code> 和 <code>E</code> 是泛型的，并且有两个变体：<code>Ok</code>，它保存一个类型 <code>T</code> 的值，以及 <code>Err</code>，它保存一个类型 <code>E</code> 的值。这个定义使得在任何我们可能成功（返回某种类型 <code>T</code> 的值）或失败（返回某种类型 <code>E</code> 的错误）的操作中使用 <code>Result</code> 枚举变得方便。事实上，这就是我们在 Listing 9-3 中用来打开文件的内容，其中 <code>T</code> 在文件成功打开时被填充为类型 <code>std::fs::File</code>，而 <code>E</code> 在打开文件时遇到问题时被填充为类型 <code>std::io::Error</code>。</p>
+<p>当你识别出代码中有多个结构体或枚举定义仅在它们保存的值的类型上有所不同时，你可以通过使用泛型类型来避免重复。</p>
+<h3 id="在方法定义中"><a class="header" href="#在方法定义中">在方法定义中</a></h3>
+<p>我们可以在结构体和枚举上实现方法（正如我们在第 5 章中所做的那样），并在它们的定义中也使用泛型类型。Listing 10-9 展示了我们在 Listing 10-6 中定义的 <code>Point&lt;T&gt;</code> 结构体，并在其上实现了一个名为 <code>x</code> 的方法。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn x(&amp;self) -&gt; &amp;T {
+        &amp;self.x
+    }
+}
+
+fn main() {
+    let p = Point { x: 5, y: 10 };
+
+    println!("p.x = {}", p.x());
+}</code></pre></pre>
+<figcaption>Listing 10-9: 在 <code>Point&lt;T&gt;</code> 结构体上实现一个名为 <code>x</code> 的方法，该方法将返回对类型 <code>T</code> 的 <code>x</code> 字段的引用</figcaption>
+</figure>
+<p>在这里，我们在 <code>Point&lt;T&gt;</code> 上定义了一个名为 <code>x</code> 的方法，它返回对字段 <code>x</code> 中的数据的引用。</p>
+<p>请注意，我们必须在 <code>impl</code> 之后声明 <code>T</code>，以便我们可以使用 <code>T</code> 来指定我们正在为类型 <code>Point&lt;T&gt;</code> 实现方法。通过在 <code>impl</code> 之后声明 <code>T</code> 为泛型类型，Rust 可以识别 <code>Point</code> 中尖括号内的类型是泛型类型而不是具体类型。我们可以为这个泛型参数选择一个与结构体定义中声明的泛型参数不同的名称，但使用相同的名称是惯例。如果你在 <code>impl</code> 中编写一个声明泛型类型的方法，那么无论最终替换泛型类型的具体类型是什么，该方法都将定义在该类型的任何实例上。</p>
+<p>我们还可以在定义类型的方法时对泛型类型指定约束。例如，我们可以仅在 <code>Point&lt;f32&gt;</code> 实例上实现方法，而不是在任何泛型类型的 <code>Point&lt;T&gt;</code> 实例上实现方法。在 Listing 10-10 中，我们使用具体类型 <code>f32</code>，这意味着我们没有在 <code>impl</code> 之后声明任何类型。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct Point&lt;T&gt; {
+</span><span class="boring">    x: T,
+</span><span class="boring">    y: T,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl&lt;T&gt; Point&lt;T&gt; {
+</span><span class="boring">    fn x(&amp;self) -&gt; &amp;T {
+</span><span class="boring">        &amp;self.x
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Point&lt;f32&gt; {
+    fn distance_from_origin(&amp;self) -&gt; f32 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let p = Point { x: 5, y: 10 };
+</span><span class="boring">
+</span><span class="boring">    println!("p.x = {}", p.x());
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 10-10: 一个 <code>impl</code> 块，仅适用于具有特定具体类型的泛型类型参数 <code>T</code> 的结构体</figcaption>
+</figure>
+<p>这段代码意味着类型 <code>Point&lt;f32&gt;</code> 将有一个 <code>distance_from_origin</code> 方法；其他 <code>Point&lt;T&gt;</code> 实例，其中 <code>T</code> 不是 <code>f32</code> 类型，将没有定义此方法。该方法测量我们的点距离坐标 (0.0, 0.0) 的点有多远，并使用仅适用于浮点类型的数学运算。</p>
+<p>结构体定义中的泛型类型参数并不总是与你在同一结构体的方法签名中使用的泛型类型参数相同。Listing 10-11 使用泛型类型 <code>X1</code> 和 <code>Y1</code> 用于 <code>Point</code> 结构体，并使用 <code>X2</code> 和 <code>Y2</code> 用于 <code>mixup</code> 方法签名，以使示例更清晰。该方法创建一个新的 <code>Point</code> 实例，其中 <code>x</code> 值来自 <code>self</code> <code>Point</code>（类型为 <code>X1</code>），<code>y</code> 值来自传入的 <code>Point</code>（类型为 <code>Y2</code>）。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">struct Point&lt;X1, Y1&gt; {
+    x: X1,
+    y: Y1,
+}
+
+impl&lt;X1, Y1&gt; Point&lt;X1, Y1&gt; {
+    fn mixup&lt;X2, Y2&gt;(self, other: Point&lt;X2, Y2&gt;) -&gt; Point&lt;X1, Y2&gt; {
+        Point {
+            x: self.x,
+            y: other.y,
+        }
+    }
+}
+
+fn main() {
+    let p1 = Point { x: 5, y: 10.4 };
+    let p2 = Point { x: "Hello", y: 'c' };
+
+    let p3 = p1.mixup(p2);
+
+    println!("p3.x = {}, p3.y = {}", p3.x, p3.y);
+}</code></pre></pre>
+<figcaption>Listing 10-11: 一个使用与其结构体定义不同的泛型类型的方法</figcaption>
+</figure>
+<p>在 <code>main</code> 中，我们定义了一个 <code>Point</code>，其中 <code>x</code> 是一个 <code>i32</code>（值为 <code>5</code>），<code>y</code> 是一个 <code>f64</code>（值为 <code>10.4</code>）。<code>p2</code> 变量是一个 <code>Point</code> 结构体，其中 <code>x</code> 是一个字符串切片（值为 <code>"Hello"</code>），<code>y</code> 是一个 <code>char</code>（值为 <code>c</code>）。在 <code>p1</code> 上调用 <code>mixup</code> 并传入 <code>p2</code> 会给我们 <code>p3</code>，它将有一个 <code>i32</code> 类型的 <code>x</code>，因为 <code>x</code> 来自 <code>p1</code>。<code>p3</code> 变量将有一个 <code>char</code> 类型的 <code>y</code>，因为 <code>y</code> 来自 <code>p2</code>。<code>println!</code> 宏调用将打印 <code>p3.x = 5, p3.y = c</code>。</p>
+<p>这个例子的目的是展示一种情况，其中一些泛型参数在 <code>impl</code> 中声明，而另一些在方法定义中声明。在这里，泛型参数 <code>X1</code> 和 <code>Y1</code> 在 <code>impl</code> 之后声明，因为它们与结构体定义一起使用。泛型参数 <code>X2</code> 和 <code>Y2</code> 在 <code>fn mixup</code> 之后声明，因为它们仅与方法相关。</p>
+<h3 id="使用泛型的代码性能"><a class="header" href="#使用泛型的代码性能">使用泛型的代码性能</a></h3>
+<p>你可能想知道使用泛型类型参数时是否存在运行时成本。好消息是，使用泛型类型不会使你的程序比使用具体类型时运行得更慢。</p>
+<p>Rust 通过在编译时对使用泛型的代码进行单态化来实现这一点。<em>单态化</em> 是通过填充编译时使用的具体类型将泛型代码转换为特定代码的过程。在这个过程中，编译器执行与我们创建泛型函数时相反的步骤：编译器查看所有调用泛型代码的地方，并为调用泛型代码的具体类型生成代码。</p>
+<p>让我们通过使用标准库的泛型 <code>Option&lt;T&gt;</code> 枚举来看看这是如何工作的：</p>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let integer = Some(5);
+let float = Some(5.0);
+<span class="boring">}</span></code></pre></pre>
+<p>当 Rust 编译此代码时，它会执行单态化。在这个过程中，编译器读取在 <code>Option&lt;T&gt;</code> 实例中使用的值，并识别出两种 <code>Option&lt;T&gt;</code>：一种是 <code>i32</code>，另一种是 <code>f64</code>。因此，它将 <code>Option&lt;T&gt;</code> 的泛型定义扩展为专门针对 <code>i32</code> 和 <code>f64</code> 的两个定义，从而用特定的定义替换泛型定义。</p>
+<p>单态化后的代码看起来类似于以下内容（编译器使用与我们在此处使用的名称不同的名称以进行说明）：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">enum Option_i32 {
+    Some(i32),
+    None,
+}
+
+enum Option_f64 {
+    Some(f64),
+    None,
+}
+
+fn main() {
+    let integer = Option_i32::Some(5);
+    let float = Option_f64::Some(5.0);
+}</code></pre></pre>
+</figure>
+<p>泛型 <code>Option&lt;T&gt;</code> 被编译器创建的特定定义所替换。因为 Rust 将泛型代码编译为指定每个实例中类型的代码，所以我们使用泛型时不会产生运行时成本。当代码运行时，它的表现就像我们手动复制每个定义一样。单态化过程使 Rust 的泛型在运行时非常高效。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch10-00-generics.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch10-02-traits.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch10-00-generics.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch10-02-traits.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>优雅关闭和清理 - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="优雅关闭与清理"><a class="header" href="#优雅关闭与清理">优雅关闭与清理</a></h2>
+<p>在 Listing 21-20 中的代码通过使用线程池异步地响应请求，正如我们所期望的那样。我们收到了一些关于 <code>workers</code>、<code>id</code> 和 <code>thread</code> 字段的警告，这些字段我们没有直接使用，提醒我们没有清理任何东西。当我们使用不太优雅的 <kbd>ctrl</kbd>-<kbd>c</kbd> 方法来停止主线程时，所有其他线程也会立即停止，即使它们正在处理请求。</p>
+<p>接下来，我们将实现 <code>Drop</code> trait 来在线程池中的每个线程上调用 <code>join</code>，以便它们可以在关闭之前完成正在处理的请求。然后我们将实现一种方法来告诉线程它们应该停止接受新请求并关闭。为了看到这段代码的实际效果，我们将修改我们的服务器，使其在优雅关闭线程池之前只接受两个请求。</p>
+<p>在我们进行的过程中需要注意的一点是：这些都不会影响处理执行闭包的代码部分，因此如果我们为异步运行时使用线程池，这里的一切都将保持不变。</p>
+<h3 id="在-threadpool-上实现-drop-trait"><a class="header" href="#在-threadpool-上实现-drop-trait">在 <code>ThreadPool</code> 上实现 <code>Drop</code> Trait</a></h3>
+<p>让我们从在线程池上实现 <code>Drop</code> 开始。当线程池被丢弃时，我们的线程应该全部 <code>join</code> 以确保它们完成工作。Listing 21-22 展示了 <code>Drop</code> 实现的第一次尝试；这段代码还不能完全工作。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
+</span><span class="boring">    thread,
+</span><span class="boring">};
+</span><span class="boring">
+</span><span class="boring">pub struct ThreadPool {
+</span><span class="boring">    workers: Vec&lt;Worker&gt;,
+</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
+</span><span class="boring">
+</span><span class="boring">impl ThreadPool {
+</span><span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
+</span><span class="boring">        assert!(size &gt; 0);
+</span><span class="boring">
+</span><span class="boring">        let (sender, receiver) = mpsc::channel();
+</span><span class="boring">
+</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
+</span><span class="boring">
+</span><span class="boring">        let mut workers = Vec::with_capacity(size);
+</span><span class="boring">
+</span><span class="boring">        for id in 0..size {
+</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        ThreadPool { workers, sender }
+</span><span class="boring">    }
+</span><span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">        let job = Box::new(f);
+</span><span class="boring">
+</span><span class="boring">        self.sender.send(job).unwrap();
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Drop for ThreadPool {
+    fn drop(&amp;mut self) {
+        for worker in &amp;mut self.workers {
+            println!("Shutting down worker {}", worker.id);
+
+            worker.thread.join().unwrap();
+        }
+    }
+}
+<span class="boring">
+</span><span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Worker {
+</span><span class="boring">    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
+</span><span class="boring">        let thread = thread::spawn(move || {
+</span><span class="boring">            loop {
+</span><span class="boring">                let job = receiver.lock().unwrap().recv().unwrap();
+</span><span class="boring">
+</span><span class="boring">                println!("Worker {id} got a job; executing.");
+</span><span class="boring">
+</span><span class="boring">                job();
+</span><span class="boring">            }
+</span><span class="boring">        });
+</span><span class="boring">
+</span><span class="boring">        Worker { id, thread }
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 21-22: 当线程池超出作用域时，对每个线程进行 join</figcaption>
+</figure>
+<p>首先，我们遍历线程池中的每个 <code>workers</code>。我们使用 <code>&amp;mut</code> 因为 <code>self</code> 是一个可变引用，并且我们还需要能够改变 <code>worker</code>。对于每个 worker，我们打印一条消息，说明这个特定的 <code>Worker</code> 实例正在关闭，然后我们对该 <code>Worker</code> 实例的线程调用 <code>join</code>。如果调用 <code>join</code> 失败，我们使用 <code>unwrap</code> 使 Rust 恐慌并进入不优雅的关闭。</p>
+<p>当我们编译这段代码时，会得到以下错误：</p>
+<pre><code class="language-console">$ cargo check
+    Checking hello v0.1.0 (file:///projects/hello)
+error[E0507]: cannot move out of `worker.thread` which is behind a mutable reference
+    --&gt; src/lib.rs:52:13
+     |
+52   |             worker.thread.join().unwrap();
+     |             ^^^^^^^^^^^^^ ------ `worker.thread` moved due to this method call
+     |             |
+     |             move occurs because `worker.thread` has type `JoinHandle&lt;()&gt;`, which does not implement the `Copy` trait
+     |
+note: `JoinHandle::&lt;T&gt;::join` takes ownership of the receiver `self`, which moves `worker.thread`
+    --&gt; file:///home/.rustup/toolchains/1.85/lib/rustlib/src/rust/library/std/src/thread/mod.rs:1876:17
+     |
+1876 |     pub fn join(self) -&gt; Result&lt;T&gt; {
+     |                 ^^^^
+
+For more information about this error, try `rustc --explain E0507`.
+error: could not compile `hello` (lib) due to 1 previous error
+</code></pre>
+<p>错误告诉我们不能调用 <code>join</code>，因为我们只有每个 <code>worker</code> 的可变借用，而 <code>join</code> 需要拥有其参数的所有权。为了解决这个问题，我们需要将线程从拥有 <code>thread</code> 的 <code>Worker</code> 实例中移出，以便 <code>join</code> 可以消费线程。一种方法是采用我们在 Listing 18-15 中使用的相同方法。如果 <code>Worker</code> 持有一个 <code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>，我们可以调用 <code>Option</code> 上的 <code>take</code> 方法将值从 <code>Some</code> 变体中移出，并在其位置留下一个 <code>None</code> 变体。换句话说，一个正在运行的 <code>Worker</code> 会在 <code>thread</code> 中有一个 <code>Some</code> 变体，当我们想要清理一个 <code>Worker</code> 时，我们会用 <code>None</code> 替换 <code>Some</code>，这样 <code>Worker</code> 就不会有线程可以运行。</p>
+<p>然而，唯一会出现这种情况的时候是在丢弃 <code>Worker</code> 时。作为交换，我们必须在任何访问 <code>worker.thread</code> 的地方处理 <code>Option&lt;thread::JoinHandle&lt;()&gt;&gt;</code>。惯用的 Rust 会大量使用 <code>Option</code>，但当你发现自己将你知道总是存在的东西包装在 <code>Option</code> 中作为这样的变通方法时，最好寻找替代方法。它们可以使你的代码更简洁且更不容易出错。</p>
+<p>在这种情况下，存在一个更好的替代方法：<code>Vec::drain</code> 方法。它接受一个范围参数来指定要从 <code>Vec</code> 中移除哪些项，并返回这些项的迭代器。传递 <code>..</code> 范围语法将移除 <code>Vec</code> 中的每个值。</p>
+<p>所以我们需要像这样更新 <code>ThreadPool</code> 的 <code>drop</code> 实现：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span><span class="boring">use std::{
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
+</span><span class="boring">    thread,
+</span><span class="boring">};
+</span><span class="boring">
+</span><span class="boring">pub struct ThreadPool {
+</span><span class="boring">    workers: Vec&lt;Worker&gt;,
+</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
+</span><span class="boring">
+</span><span class="boring">impl ThreadPool {
+</span><span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
+</span><span class="boring">        assert!(size &gt; 0);
+</span><span class="boring">
+</span><span class="boring">        let (sender, receiver) = mpsc::channel();
+</span><span class="boring">
+</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
+</span><span class="boring">
+</span><span class="boring">        let mut workers = Vec::with_capacity(size);
+</span><span class="boring">
+</span><span class="boring">        for id in 0..size {
+</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        ThreadPool { workers, sender }
+</span><span class="boring">    }
+</span><span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">        let job = Box::new(f);
+</span><span class="boring">
+</span><span class="boring">        self.sender.send(job).unwrap();
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Drop for ThreadPool {
+    fn drop(&amp;mut self) {
+        for worker in self.workers.drain(..) {
+            println!("Shutting down worker {}", worker.id);
+
+            worker.thread.join().unwrap();
+        }
+    }
+}
+<span class="boring">
+</span><span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Worker {
+</span><span class="boring">    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
+</span><span class="boring">        let thread = thread::spawn(move || {
+</span><span class="boring">            loop {
+</span><span class="boring">                let job = receiver.lock().unwrap().recv().unwrap();
+</span><span class="boring">
+</span><span class="boring">                println!("Worker {id} got a job; executing.");
+</span><span class="boring">
+</span><span class="boring">                job();
+</span><span class="boring">            }
+</span><span class="boring">        });
+</span><span class="boring">
+</span><span class="boring">        Worker { id, thread }
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">}</span></code></pre></pre>
+</figure>
+<p>这解决了编译器错误，并且不需要对我们的代码进行任何其他更改。</p>
+<h3 id="向线程发出信号以停止监听任务"><a class="header" href="#向线程发出信号以停止监听任务">向线程发出信号以停止监听任务</a></h3>
+<p>随着我们进行的所有更改，我们的代码在没有任何警告的情况下编译。然而，坏消息是这段代码还没有按照我们想要的方式工作。关键在于 <code>Worker</code> 实例的线程运行的闭包中的逻辑：目前，我们调用 <code>join</code>，但这不会关闭线程，因为它们会永远循环寻找任务。如果我们尝试使用当前的 <code>drop</code> 实现来丢弃 <code>ThreadPool</code>，主线程将永远阻塞，等待第一个线程完成。</p>
+<p>要解决这个问题，我们需要在 <code>ThreadPool</code> 的 <code>drop</code> 实现中进行更改，然后在 <code>Worker</code> 循环中进行更改。</p>
+<p>首先，我们将更改 <code>ThreadPool</code> 的 <code>drop</code> 实现，在等待线程完成之前显式丢弃 <code>sender</code>。Listing 21-23 显示了对 <code>ThreadPool</code> 的更改，以显式丢弃 <code>sender</code>。与线程不同，这里我们确实需要使用 <code>Option</code> 来能够使用 <code>Option::take</code> 将 <code>sender</code> 从 <code>ThreadPool</code> 中移出。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground not_desired_behavior"><span class="boring">use std::{
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
+</span><span class="boring">    thread,
+</span><span class="boring">};
+</span><span class="boring">
+</span>pub struct ThreadPool {
+    workers: Vec&lt;Worker&gt;,
+    sender: Option&lt;mpsc::Sender&lt;Job&gt;&gt;,
+}
+// --snip--
+<span class="boring">
+</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
+</span><span class="boring">
+</span>impl ThreadPool {
+<span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span>    pub fn new(size: usize) -&gt; ThreadPool {
+        // --snip--
+
+<span class="boring">        assert!(size &gt; 0);
+</span><span class="boring">
+</span><span class="boring">        let (sender, receiver) = mpsc::channel();
+</span><span class="boring">
+</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
+</span><span class="boring">
+</span><span class="boring">        let mut workers = Vec::with_capacity(size);
+</span><span class="boring">
+</span><span class="boring">        for id in 0..size {
+</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
+</span><span class="boring">        }
+</span><span class="boring">
+</span>        ThreadPool {
+            workers,
+            sender: Some(sender),
+        }
+    }
+
+    pub fn execute&lt;F&gt;(&amp;self, f: F)
+    where
+        F: FnOnce() + Send + 'static,
+    {
+        let job = Box::new(f);
+
+        self.sender.as_ref().unwrap().send(job).unwrap();
+    }
+}
+
+impl Drop for ThreadPool {
+    fn drop(&amp;mut self) {
+        drop(self.sender.take());
+
+        for worker in self.workers.drain(..) {
+            println!("Shutting down worker {}", worker.id);
+
+            worker.thread.join().unwrap();
+        }
+    }
+}
+<span class="boring">
+</span><span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Worker {
+</span><span class="boring">    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
+</span><span class="boring">        let thread = thread::spawn(move || {
+</span><span class="boring">            loop {
+</span><span class="boring">                let job = receiver.lock().unwrap().recv().unwrap();
+</span><span class="boring">
+</span><span class="boring">                println!("Worker {id} got a job; executing.");
+</span><span class="boring">
+</span><span class="boring">                job();
+</span><span class="boring">            }
+</span><span class="boring">        });
+</span><span class="boring">
+</span><span class="boring">        Worker { id, thread }
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 21-23: 在 join <code>Worker</code> 线程之前显式丢弃 <code>sender</code></figcaption>
+</figure>
+<p>丢弃 <code>sender</code> 会关闭通道，这表明不会再发送消息。当这种情况发生时，<code>Worker</code> 实例在无限循环中执行的所有 <code>recv</code> 调用都将返回一个错误。在 Listing 21-24 中，我们更改了 <code>Worker</code> 循环，以便在这种情况下优雅地退出循环，这意味着当 <code>ThreadPool</code> 的 <code>drop</code> 实现调用 <code>join</code> 时，线程将完成。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground"><span class="boring">use std::{
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
+</span><span class="boring">    thread,
+</span><span class="boring">};
+</span><span class="boring">
+</span><span class="boring">pub struct ThreadPool {
+</span><span class="boring">    workers: Vec&lt;Worker&gt;,
+</span><span class="boring">    sender: Option&lt;mpsc::Sender&lt;Job&gt;&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
+</span><span class="boring">
+</span><span class="boring">impl ThreadPool {
+</span><span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
+</span><span class="boring">        assert!(size &gt; 0);
+</span><span class="boring">
+</span><span class="boring">        let (sender, receiver) = mpsc::channel();
+</span><span class="boring">
+</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
+</span><span class="boring">
+</span><span class="boring">        let mut workers = Vec::with_capacity(size);
+</span><span class="boring">
+</span><span class="boring">        for id in 0..size {
+</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        ThreadPool {
+</span><span class="boring">            workers,
+</span><span class="boring">            sender: Some(sender),
+</span><span class="boring">        }
+</span><span class="boring">    }
+</span><span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">        let job = Box::new(f);
+</span><span class="boring">
+</span><span class="boring">        self.sender.as_ref().unwrap().send(job).unwrap();
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Drop for ThreadPool {
+</span><span class="boring">    fn drop(&amp;mut self) {
+</span><span class="boring">        drop(self.sender.take());
+</span><span class="boring">
+</span><span class="boring">        for worker in self.workers.drain(..) {
+</span><span class="boring">            println!("Shutting down worker {}", worker.id);
+</span><span class="boring">
+</span><span class="boring">            worker.thread.join().unwrap();
+</span><span class="boring">        }
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Worker {
+    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
+        let thread = thread::spawn(move || {
+            loop {
+                let message = receiver.lock().unwrap().recv();
+
+                match message {
+                    Ok(job) =&gt; {
+                        println!("Worker {id} got a job; executing.");
+
+                        job();
+                    }
+                    Err(_) =&gt; {
+                        println!("Worker {id} disconnected; shutting down.");
+                        break;
+                    }
+                }
+            }
+        });
+
+        Worker { id, thread }
+    }
+}</code></pre>
+<figcaption>Listing 21-24: 当 <code>recv</code> 返回错误时显式跳出循环</figcaption>
+</figure>
+<p>为了看到这段代码的实际效果，让我们修改 <code>main</code>，使其在优雅关闭服务器之前只接受两个请求，如 Listing 21-25 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">use hello::ThreadPool;
+</span><span class="boring">use std::{
+</span><span class="boring">    fs,
+</span><span class="boring">    io::{BufReader, prelude::*},
+</span><span class="boring">    net::{TcpListener, TcpStream},
+</span><span class="boring">    thread,
+</span><span class="boring">    time::Duration,
+</span><span class="boring">};
+</span><span class="boring">
+</span>fn main() {
+    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+    let pool = ThreadPool::new(4);
+
+    for stream in listener.incoming().take(2) {
+        let stream = stream.unwrap();
+
+        pool.execute(|| {
+            handle_connection(stream);
+        });
+    }
+
+    println!("Shutting down.");
+}
+<span class="boring">
+</span><span class="boring">fn handle_connection(mut stream: TcpStream) {
+</span><span class="boring">    let buf_reader = BufReader::new(&amp;stream);
+</span><span class="boring">    let request_line = buf_reader.lines().next().unwrap().unwrap();
+</span><span class="boring">
+</span><span class="boring">    let (status_line, filename) = match &amp;request_line[..] {
+</span><span class="boring">        "GET / HTTP/1.1" =&gt; ("HTTP/1.1 200 OK", "hello.html"),
+</span><span class="boring">        "GET /sleep HTTP/1.1" =&gt; {
+</span><span class="boring">            thread::sleep(Duration::from_secs(5));
+</span><span class="boring">            ("HTTP/1.1 200 OK", "hello.html")
+</span><span class="boring">        }
+</span><span class="boring">        _ =&gt; ("HTTP/1.1 404 NOT FOUND", "404.html"),
+</span><span class="boring">    };
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
+</span><span class="boring">    let length = contents.len();
+</span><span class="boring">
+</span><span class="boring">    let response =
+</span><span class="boring">        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+</span><span class="boring">
+</span><span class="boring">    stream.write_all(response.as_bytes()).unwrap();
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 21-25: 通过退出循环在服务两个请求后关闭服务器</figcaption>
+</figure>
+<p>你不会希望一个真实世界的 Web 服务器在只服务两个请求后就关闭。这段代码只是演示了优雅关闭和清理功能正常工作。</p>
+<p><code>take</code> 方法定义在 <code>Iterator</code> trait 中，并将迭代限制为最多前两项。<code>ThreadPool</code> 将在 <code>main</code> 结束时超出作用域，并且 <code>drop</code> 实现将运行。</p>
+<p>使用 <code>cargo run</code> 启动服务器，并发出三个请求。第三个请求应该会出错，并且在你的终端中你应该会看到类似于以下的输出：</p>
+<!-- manual-regeneration
+cd listings/ch21-web-server/listing-21-25
+cargo run
+curl http://127.0.0.1:7878
+curl http://127.0.0.1:7878
+curl http://127.0.0.1:7878
+third request will error because server will have shut down
+copy output below
+Can't automate because the output depends on making requests
+-->
+<pre><code class="language-console">$ cargo run
+   Compiling hello v0.1.0 (file:///projects/hello)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.41s
+     Running `target/debug/hello`
+Worker 0 got a job; executing.
+Shutting down.
+Shutting down worker 0
+Worker 3 got a job; executing.
+Worker 1 disconnected; shutting down.
+Worker 2 disconnected; shutting down.
+Worker 3 disconnected; shutting down.
+Worker 0 disconnected; shutting down.
+Shutting down worker 1
+Shutting down worker 2
+Shutting down worker 3
+</code></pre>
+<p>你可能会看到不同的 <code>Worker</code> ID 和消息打印顺序。我们可以从消息中看到这段代码是如何工作的：<code>Worker</code> 实例 0 和 3 获得了前两个请求。服务器在第二个连接后停止接受连接，并且 <code>ThreadPool</code> 上的 <code>Drop</code> 实现甚至在 <code>Worker</code> 3 开始其工作之前就开始执行。丢弃 <code>sender</code> 会断开所有 <code>Worker</code> 实例的连接并告诉它们关闭。每个 <code>Worker</code> 实例在断开连接时都会打印一条消息，然后线程池调用 <code>join</code> 等待每个 <code>Worker</code> 线程完成。</p>
+<p>注意这个特定执行的一个有趣方面：<code>ThreadPool</code> 丢弃了 <code>sender</code>，并且在任何 <code>Worker</code> 收到错误之前，我们尝试 join <code>Worker</code> 0。<code>Worker</code> 0 还没有从 <code>recv</code> 收到错误，所以主线程阻塞等待 <code>Worker</code> 0 完成。与此同时，<code>Worker</code> 3 收到了一个任务，然后所有线程都收到了一个错误。当 <code>Worker</code> 0 完成时，主线程等待其余的 <code>Worker</code> 实例完成。那时，它们都已经退出了循环并停止了。</p>
+<p>恭喜！我们现在已经完成了我们的项目；我们有一个使用线程池异步响应的基本 Web 服务器。我们能够执行服务器的优雅关闭，这会清理池中的所有线程。</p>
+<p>以下是完整代码供参考：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore">use hello::ThreadPool;
+use std::{
+    fs,
+    io::{BufReader, prelude::*},
+    net::{TcpListener, TcpStream},
+    thread,
+    time::Duration,
+};
+
+fn main() {
+    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+    let pool = ThreadPool::new(4);
+
+    for stream in listener.incoming().take(2) {
+        let stream = stream.unwrap();
+
+        pool.execute(|| {
+            handle_connection(stream);
+        });
+    }
+
+    println!("Shutting down.");
+}
+
+fn handle_connection(mut stream: TcpStream) {
+    let buf_reader = BufReader::new(&amp;stream);
+    let request_line = buf_reader.lines().next().unwrap().unwrap();
+
+    let (status_line, filename) = match &amp;request_line[..] {
+        "GET / HTTP/1.1" =&gt; ("HTTP/1.1 200 OK", "hello.html"),
+        "GET /sleep HTTP/1.1" =&gt; {
+            thread::sleep(Duration::from_secs(5));
+            ("HTTP/1.1 200 OK", "hello.html")
+        }
+        _ =&gt; ("HTTP/1.1 404 NOT FOUND", "404.html"),
+    };
+
+    let contents = fs::read_to_string(filename).unwrap();
+    let length = contents.len();
+
+    let response =
+        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+
+    stream.write_all(response.as_bytes()).unwrap();
+}</code></pre>
+</figure>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">use std::{
+    sync::{Arc, Mutex, mpsc},
+    thread,
+};
+
+pub struct ThreadPool {
+    workers: Vec&lt;Worker&gt;,
+    sender: Option&lt;mpsc::Sender&lt;Job&gt;&gt;,
+}
+
+type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
+
+impl ThreadPool {
+    /// Create a new ThreadPool.
+    ///
+    /// The size is the number of threads in the pool.
+    ///
+    /// # Panics
+    ///
+    /// The `new` function will panic if the size is zero.
+    pub fn new(size: usize) -&gt; ThreadPool {
+        assert!(size &gt; 0);
+
+        let (sender, receiver) = mpsc::channel();
+
+        let receiver = Arc::new(Mutex::new(receiver));
+
+        let mut workers = Vec::with_capacity(size);
+
+        for id in 0..size {
+            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
+        }
+
+        ThreadPool {
+            workers,
+            sender: Some(sender),
+        }
+    }
+
+    pub fn execute&lt;F&gt;(&amp;self, f: F)
+    where
+        F: FnOnce() + Send + 'static,
+    {
+        let job = Box::new(f);
+
+        self.sender.as_ref().unwrap().send(job).unwrap();
+    }
+}
+
+impl Drop for ThreadPool {
+    fn drop(&amp;mut self) {
+        drop(self.sender.take());
+
+        for worker in &amp;mut self.workers {
+            println!("Shutting down worker {}", worker.id);
+
+            if let Some(thread) = worker.thread.take() {
+                thread.join().unwrap();
+            }
+        }
+    }
+}
+
+struct Worker {
+    id: usize,
+    thread: Option&lt;thread::JoinHandle&lt;()&gt;&gt;,
+}
+
+impl Worker {
+    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
+        let thread = thread::spawn(move || {
+            loop {
+                let message = receiver.lock().unwrap().recv();
+
+                match message {
+                    Ok(job) =&gt; {
+                        println!("Worker {id} got a job; executing.");
+
+                        job();
+                    }
+                    Err(_) =&gt; {
+                        println!("Worker {id} disconnected; shutting down.");
+                        break;
+                    }
+                }
+            }
+        });
+
+        Worker {
+            id,
+            thread: Some(thread),
+        }
+    }
+}</code></pre>
+</figure>
+<p>我们还可以做更多的事情！如果你想继续增强这个项目，这里有一些想法：</p>
+<ul>
+<li>为 <code>ThreadPool</code> 及其公共方法添加更多文档。</li>
+<li>添加库功能的测试。</li>
+<li>将 <code>unwrap</code> 的调用更改为更健壮的错误处理。</li>
+<li>使用 <code>ThreadPool</code> 执行除服务 Web 请求之外的其他任务。</li>
+<li>在 <a href="https://crates.io/">crates.io</a> 上找到一个线程池 crate，并使用该 crate 实现一个类似的 Web 服务器。然后将其 API 和健壮性与我们实现的线程池进行比较。</li>
+</ul>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>干得好！你已经完成了本书的学习！我们感谢你加入我们的 Rust 之旅。你现在已经准备好实现自己的 Rust 项目并帮助其他人的项目。请记住，有一个欢迎的 Rustaceans 社区，他们很乐意帮助你在 Rust 旅程中遇到的任何挑战。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch21-02-multithreaded.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="appendix-00.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch21-02-multithreaded.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="appendix-00.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

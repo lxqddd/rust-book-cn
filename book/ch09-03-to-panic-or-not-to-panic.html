@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>是否使用 panic! - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="使用-panic-还是不使用-panic"><a class="header" href="#使用-panic-还是不使用-panic">使用 <code>panic!</code> 还是不使用 <code>panic!</code></a></h2>
+<p>那么，你该如何决定何时应该调用 <code>panic!</code>，何时应该返回 <code>Result</code> 呢？当代码 panic 时，是没有恢复的办法的。你可以在任何错误情况下调用 <code>panic!</code>，无论是否有恢复的可能，但这样你就代替调用代码做出了这个情况是不可恢复的决定。当你选择返回 <code>Result</code> 值时，你给了调用代码选择的机会。调用代码可以选择尝试以适合其情况的方式恢复，或者它可以决定在这种情况下 <code>Err</code> 值是不可恢复的，因此它可以调用 <code>panic!</code> 并将你的可恢复错误转换为不可恢复的错误。因此，返回 <code>Result</code> 是定义可能失败的函数时的默认选择。</p>
+<p>在示例、原型代码和测试等情况下，编写 panic 的代码比返回 <code>Result</code> 更合适。让我们探讨一下原因，然后讨论编译器无法判断失败是不可能的，但你作为人类可以判断的情况。本章将以一些关于如何在库代码中决定是否 panic 的通用指南作为总结。</p>
+<h3 id="示例原型代码和测试"><a class="header" href="#示例原型代码和测试">示例、原型代码和测试</a></h3>
+<p>当你编写示例来说明某个概念时，包含健壮的错误处理代码可能会使示例变得不那么清晰。在示例中，调用像 <code>unwrap</code> 这样可能会 panic 的方法是为了作为你想要应用程序处理错误的方式的占位符，这可能会根据代码的其他部分而有所不同。</p>
+<p>同样，<code>unwrap</code> 和 <code>expect</code> 方法在原型设计时非常方便，在你准备好决定如何处理错误之前。它们在你的代码中留下了清晰的标记，以便在你准备好使程序更健壮时使用。</p>
+<p>如果测试中的方法调用失败，你会希望整个测试失败，即使该方法不是正在测试的功能。因为 <code>panic!</code> 是测试标记为失败的方式，调用 <code>unwrap</code> 或 <code>expect</code> 正是应该发生的事情。</p>
+<h3 id="当你比编译器拥有更多信息时"><a class="header" href="#当你比编译器拥有更多信息时">当你比编译器拥有更多信息时</a></h3>
+<p>当你有一些其他逻辑确保 <code>Result</code> 将有一个 <code>Ok</code> 值时，调用 <code>unwrap</code> 或 <code>expect</code> 也是合适的，但编译器不理解这种逻辑。你仍然需要处理一个 <code>Result</code> 值：无论你调用的操作在一般情况下都有可能失败，即使在你特定的情况下逻辑上是不可能的。如果你可以通过手动检查代码确保永远不会有一个 <code>Err</code> 变体，那么调用 <code>unwrap</code> 是完全可接受的，甚至在 <code>expect</code> 文本中记录你认为永远不会有一个 <code>Err</code> 变体的原因会更好。这里有一个例子：</p>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    use std::net::IpAddr;
+
+    let home: IpAddr = "127.0.0.1"
+        .parse()
+        .expect("Hardcoded IP address should be valid");
+<span class="boring">}</span></code></pre></pre>
+<p>我们通过解析一个硬编码的字符串来创建一个 <code>IpAddr</code> 实例。我们可以看到 <code>127.0.0.1</code> 是一个有效的 IP 地址，所以在这里使用 <code>expect</code> 是可以接受的。然而，拥有一个硬编码的有效字符串并不会改变 <code>parse</code> 方法的返回类型：我们仍然会得到一个 <code>Result</code> 值，编译器仍然会让我们处理 <code>Result</code>，就好像 <code>Err</code> 变体是有可能的一样，因为编译器不够聪明，无法看到这个字符串始终是一个有效的 IP 地址。如果 IP 地址字符串来自用户而不是硬编码到程序中，因此确实有可能失败，我们肯定会希望以更健壮的方式处理 <code>Result</code>。提到这个 IP 地址是硬编码的假设会提示我们，如果将来需要从其他来源获取 IP 地址，我们需要将 <code>expect</code> 改为更好的错误处理代码。</p>
+<h3 id="错误处理指南"><a class="header" href="#错误处理指南">错误处理指南</a></h3>
+<p>当你的代码可能进入不良状态时，建议让你的代码 panic。在这种情况下，<strong>不良状态</strong> 是指某些假设、保证、契约或不变量被破坏，例如当无效值、矛盾值或缺失值传递给你的代码时——再加上以下一个或多个条件：</p>
+<ul>
+<li>不良状态是意外的，而不是偶尔可能发生的事情，比如用户输入了错误格式的数据。</li>
+<li>此后的代码需要依赖不处于这种不良状态，而不是在每一步都检查问题。</li>
+<li>在你使用的类型中没有好的方法来编码这些信息。我们将在第 18 章的 <a href="ch18-03-oo-design-patterns.html#encoding-states-and-behavior-as-types">“将状态和行为编码为类型”</a> 中通过一个例子来说明我们的意思。</li>
+</ul>
+<p>如果有人调用你的代码并传入没有意义的值，最好返回一个错误，以便库的用户可以决定在这种情况下他们想要做什么。然而，在继续下去可能不安全或有害的情况下，最好的选择可能是调用 <code>panic!</code> 并提醒使用你的库的人他们的代码中有 bug，以便他们在开发过程中修复它。同样，如果你调用的外部代码不在你的控制范围内，并且它返回了一个你无法修复的无效状态，<code>panic!</code> 通常是合适的。</p>
+<p>然而，当失败是预期的时候，返回 <code>Result</code> 比调用 <code>panic!</code> 更合适。例如，解析器接收到格式错误的数据或 HTTP 请求返回一个表明你已经达到速率限制的状态。在这些情况下，返回 <code>Result</code> 表明失败是一个预期的可能性，调用代码必须决定如何处理。</p>
+<p>当你的代码执行一个操作，如果使用无效值调用可能会使用户处于风险之中时，你的代码应该首先验证这些值是否有效，如果值无效则 panic。这主要是出于安全原因：尝试对无效数据进行操作可能会使你的代码暴露于漏洞中。这是标准库在你尝试越界内存访问时会调用 <code>panic!</code> 的主要原因：尝试访问不属于当前数据结构的内存是一个常见的安全问题。函数通常有<strong>契约</strong>：只有在输入满足特定要求时，它们的行为才能得到保证。当契约被违反时 panic 是有意义的，因为契约违反总是表明调用方的 bug，这不是你希望调用代码必须显式处理的一种错误。事实上，调用代码没有合理的方式来恢复；调用<strong>程序员</strong>需要修复代码。函数的契约，尤其是当违反会导致 panic 时，应该在函数的 API 文档中解释。</p>
+<p>然而，在所有函数中进行大量错误检查会显得冗长且烦人。幸运的是，你可以使用 Rust 的类型系统（以及编译器进行的类型检查）来为你完成许多检查。如果你的函数有一个特定类型作为参数，你可以继续进行代码逻辑，知道编译器已经确保你有一个有效的值。例如，如果你有一个类型而不是 <code>Option</code>，你的程序期望有<strong>某些东西</strong>而不是<strong>什么都没有</strong>。然后你的代码不必处理 <code>Some</code> 和 <code>None</code> 变体的两种情况：它只会有一个肯定有值的情况。尝试将空值传递给你的函数的代码甚至不会编译，因此你的函数不必在运行时检查这种情况。另一个例子是使用无符号整数类型，如 <code>u32</code>，它确保参数永远不会是负数。</p>
+<h3 id="创建自定义类型进行验证"><a class="header" href="#创建自定义类型进行验证">创建自定义类型进行验证</a></h3>
+<p>让我们进一步利用 Rust 的类型系统来确保我们有一个有效的值，并看看如何创建一个用于验证的自定义类型。回想一下第 2 章中的猜数字游戏，我们的代码要求用户猜一个 1 到 100 之间的数字。我们在检查用户的猜测与我们的秘密数字之前从未验证过用户的猜测是否在这些数字之间；我们只验证了猜测是正数。在这种情况下，后果并不严重：我们的“太高”或“太低”的输出仍然是正确的。但引导用户进行有效的猜测并在用户猜测超出范围的数字时与用户输入字母时具有不同的行为将是一个有用的增强。</p>
+<p>一种方法是解析猜测为 <code>i32</code> 而不是仅解析为 <code>u32</code> 以允许潜在的负数，然后添加一个检查以确保数字在范围内，如下所示：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">use rand::Rng;
+</span><span class="boring">use std::cmp::Ordering;
+</span><span class="boring">use std::io;
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    println!("Guess the number!");
+</span><span class="boring">
+</span><span class="boring">    let secret_number = rand::thread_rng().gen_range(1..=100);
+</span><span class="boring">
+</span>    loop {
+        // --snip--
+
+<span class="boring">        println!("Please input your guess.");
+</span><span class="boring">
+</span><span class="boring">        let mut guess = String::new();
+</span><span class="boring">
+</span><span class="boring">        io::stdin()
+</span><span class="boring">            .read_line(&amp;mut guess)
+</span><span class="boring">            .expect("Failed to read line");
+</span><span class="boring">
+</span>        let guess: i32 = match guess.trim().parse() {
+            Ok(num) =&gt; num,
+            Err(_) =&gt; continue,
+        };
+
+        if guess &lt; 1 || guess &gt; 100 {
+            println!("The secret number will be between 1 and 100.");
+            continue;
+        }
+
+        match guess.cmp(&amp;secret_number) {
+            // --snip--
+<span class="boring">            Ordering::Less =&gt; println!("Too small!"),
+</span><span class="boring">            Ordering::Greater =&gt; println!("Too big!"),
+</span><span class="boring">            Ordering::Equal =&gt; {
+</span><span class="boring">                println!("You win!");
+</span><span class="boring">                break;
+</span><span class="boring">            }
+</span><span class="boring">        }
+</span>    }
+<span class="boring">}</span></code></pre>
+</figure>
+<p><code>if</code> 表达式检查我们的值是否超出范围，告诉用户问题，并调用 <code>continue</code> 开始循环的下一次迭代并要求另一个猜测。在 <code>if</code> 表达式之后，我们可以继续进行 <code>guess</code> 和秘密数字之间的比较，知道 <code>guess</code> 在 1 到 100 之间。</p>
+<p>然而，这并不是一个理想的解决方案：如果绝对关键的是程序只在 1 到 100 之间的值上操作，并且它有许多函数有这个要求，那么在每个函数中进行这样的检查将是繁琐的（并且可能会影响性能）。</p>
+<p>相反，我们可以创建一个新类型，并将验证放在一个函数中以创建该类型的实例，而不是到处重复验证。这样，函数在它们的签名中使用新类型是安全的，并且可以自信地使用它们接收到的值。清单 9-13 展示了一种定义 <code>Guess</code> 类型的方法，只有在 <code>new</code> 函数接收到 1 到 100 之间的值时才会创建 <code>Guess</code> 的实例。</p>
+<figure class="listing">
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -&gt; Guess {
+        if value &lt; 1 || value &gt; 100 {
+            panic!("Guess value must be between 1 and 100, got {value}.");
+        }
+
+        Guess { value }
+    }
+
+    pub fn value(&amp;self) -&gt; i32 {
+        self.value
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 9-13: 一个 <code>Guess</code> 类型，只有在值在 1 到 100 之间时才会继续</figcaption>
+</figure>
+<p>首先我们定义一个名为 <code>Guess</code> 的结构体，它有一个名为 <code>value</code> 的字段，该字段保存一个 <code>i32</code>。这是数字将存储的地方。</p>
+<p>然后我们在 <code>Guess</code> 上实现一个名为 <code>new</code> 的关联函数，该函数创建 <code>Guess</code> 值的实例。<code>new</code> 函数被定义为一个名为 <code>value</code> 的 <code>i32</code> 类型的参数，并返回一个 <code>Guess</code>。<code>new</code> 函数体中的代码测试 <code>value</code> 以确保它在 1 到 100 之间。如果 <code>value</code> 没有通过这个测试，我们调用 <code>panic!</code>，这将提醒编写调用代码的程序员他们有一个需要修复的 bug，因为创建一个 <code>value</code> 超出这个范围的 <code>Guess</code> 将违反 <code>Guess::new</code> 所依赖的契约。<code>Guess::new</code> 可能 panic 的条件应该在其公开的 API 文档中讨论；我们将在第 14 章中介绍在 API 文档中指示 <code>panic!</code> 可能性的文档约定。如果 <code>value</code> 通过了测试，我们创建一个新的 <code>Guess</code>，其 <code>value</code> 字段设置为 <code>value</code> 参数，并返回 <code>Guess</code>。</p>
+<p>接下来，我们实现一个名为 <code>value</code> 的方法，该方法借用 <code>self</code>，没有其他参数，并返回一个 <code>i32</code>。这种类型的方法有时被称为<strong>getter</strong>，因为它的目的是从其字段中获取一些数据并返回它。这个公共方法是必要的，因为 <code>Guess</code> 结构体的 <code>value</code> 字段是私有的。<code>value</code> 字段是私有的很重要，这样使用 <code>Guess</code> 结构体的代码不允许直接设置 <code>value</code>：模块外的代码<strong>必须</strong>使用 <code>Guess::new</code> 函数来创建 <code>Guess</code> 的实例，从而确保没有一种方式可以让 <code>Guess</code> 拥有一个未通过 <code>Guess::new</code> 函数中的条件检查的 <code>value</code>。</p>
+<p>一个函数如果有一个参数或只返回 1 到 100 之间的数字，那么它可以在其签名中声明它接受或返回一个 <code>Guess</code> 而不是 <code>i32</code>，并且不需要在其主体中进行任何额外的检查。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>Rust 的错误处理功能旨在帮助你编写更健壮的代码。<code>panic!</code> 宏表示你的程序处于无法处理的状态，并让你告诉进程停止，而不是尝试继续使用无效或不正确的值。<code>Result</code> 枚举使用 Rust 的类型系统来指示操作可能会以你的代码可以恢复的方式失败。你可以使用 <code>Result</code> 来告诉调用你的代码的代码它需要处理潜在的成功或失败。在适当的情况下使用 <code>panic!</code> 和 <code>Result</code> 将使你的代码在面对不可避免的问题时更加可靠。</p>
+<p>现在你已经看到了标准库如何使用泛型与 <code>Option</code> 和 <code>Result</code> 枚举的有用方式，我们将讨论泛型的工作原理以及如何在你的代码中使用它们。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch09-02-recoverable-errors-with-result.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch10-00-generics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch09-02-recoverable-errors-with-result.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch10-00-generics.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

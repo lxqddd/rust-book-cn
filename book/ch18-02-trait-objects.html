@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>使用允许不同类型值的 Trait 对象 - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="使用允许不同类型值的-trait-对象"><a class="header" href="#使用允许不同类型值的-trait-对象">使用允许不同类型值的 Trait 对象</a></h2>
+<p>在第 8 章中，我们提到向量（vector）的一个限制是它们只能存储单一类型的元素。我们在 Listing 8-9 中创建了一个变通方案，定义了一个 <code>SpreadsheetCell</code> 枚举，它有变体来保存整数、浮点数和文本。这意味着我们可以在每个单元格中存储不同类型的数据，并且仍然有一个表示一行单元格的向量。当我们的可互换项是编译时已知的一组固定类型时，这是一个非常好的解决方案。</p>
+<p>然而，有时我们希望库的用户能够扩展在特定情况下有效的类型集。为了展示如何实现这一点，我们将创建一个图形用户界面（GUI）工具示例，该工具会遍历一个项目列表，并在每个项目上调用 <code>draw</code> 方法将其绘制到屏幕上——这是 GUI 工具的常见技术。我们将创建一个名为 <code>gui</code> 的库 crate，其中包含 GUI 库的结构。这个 crate 可能包含一些供人们使用的类型，例如 <code>Button</code> 或 <code>TextField</code>。此外，<code>gui</code> 用户可能希望创建他们自己的可绘制类型：例如，一个程序员可能会添加一个 <code>Image</code>，而另一个程序员可能会添加一个 <code>SelectBox</code>。</p>
+<p>我们不会为这个示例实现一个完整的 GUI 库，但会展示这些部分如何组合在一起。在编写库时，我们无法知道并定义所有其他程序员可能想要创建的类型。但我们确实知道 <code>gui</code> 需要跟踪许多不同类型的值，并且它需要在这些不同类型的值上调用 <code>draw</code> 方法。它不需要确切知道调用 <code>draw</code> 方法时会发生什么，只需要知道该值将具有我们可以调用的该方法。</p>
+<p>在具有继承的语言中，我们可能会定义一个名为 <code>Component</code> 的类，该类具有一个名为 <code>draw</code> 的方法。其他类，如 <code>Button</code>、<code>Image</code> 和 <code>SelectBox</code>，将从 <code>Component</code> 继承，从而继承 <code>draw</code> 方法。它们可以各自覆盖 <code>draw</code> 方法以定义它们的自定义行为，但框架可以将所有这些类型视为 <code>Component</code> 实例并调用它们的 <code>draw</code> 方法。但由于 Rust 没有继承，我们需要另一种方式来构建 <code>gui</code> 库，以允许用户使用新类型扩展它。</p>
+<h3 id="为通用行为定义-trait"><a class="header" href="#为通用行为定义-trait">为通用行为定义 Trait</a></h3>
+<p>为了实现我们希望 <code>gui</code> 具有的行为，我们将定义一个名为 <code>Draw</code> 的 trait，该 trait 将有一个名为 <code>draw</code> 的方法。然后我们可以定义一个接受 trait 对象的向量。<em>trait 对象</em> 既指向实现我们指定 trait 的类型的实例，也指向在运行时用于查找该类型上的 trait 方法的表。我们通过指定某种指针（例如 <code>&amp;</code> 引用或 <code>Box&lt;T&gt;</code> 智能指针）来创建 trait 对象，然后是 <code>dyn</code> 关键字，最后指定相关的 trait。（我们将在第 20 章的 <a href="ch20-03-advanced-types.html#dynamically-sized-types-and-the-sized-trait">“动态大小类型和 <code>Sized</code> Trait”</a> 中讨论 trait 对象必须使用指针的原因。）我们可以使用 trait 对象来代替泛型或具体类型。无论我们在哪里使用 trait 对象，Rust 的类型系统都会在编译时确保在该上下文中使用的任何值都实现了 trait 对象的 trait。因此，我们不需要在编译时知道所有可能的类型。</p>
+<p>我们提到过，在 Rust 中，我们避免将结构体和枚举称为“对象”，以将它们与其他语言的对象区分开来。在结构体或枚举中，结构体字段中的数据与 <code>impl</code> 块中的行为是分开的，而在其他语言中，数据和行为组合成一个概念通常被称为对象。然而，trait 对象 <em>确实</em> 更类似于其他语言中的对象，因为它们结合了数据和行为。但 trait 对象与传统对象的不同之处在于，我们不能向 trait 对象添加数据。trait 对象不像其他语言中的对象那样普遍有用：它们的特定目的是允许跨通用行为进行抽象。</p>
+<p>Listing 18-3 展示了如何定义一个名为 <code>Draw</code> 的 trait，该 trait 有一个名为 <code>draw</code> 的方法。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">pub trait Draw {
+    fn draw(&amp;self);
+}</code></pre>
+<figcaption>Listing 18-3: <code>Draw</code> trait 的定义</figcaption>
+</figure>
+<p>这种语法应该从我们在第 10 章讨论如何定义 trait 时看起来很熟悉。接下来是一些新语法：Listing 18-4 定义了一个名为 <code>Screen</code> 的结构体，它包含一个名为 <code>components</code> 的向量。这个向量的类型是 <code>Box&lt;dyn Draw&gt;</code>，这是一个 trait 对象；它是 <code>Box</code> 中实现 <code>Draw</code> trait 的任何类型的替身。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground"><span class="boring">pub trait Draw {
+</span><span class="boring">    fn draw(&amp;self);
+</span><span class="boring">}
+</span><span class="boring">
+</span>pub struct Screen {
+    pub components: Vec&lt;Box&lt;dyn Draw&gt;&gt;,
+}</code></pre>
+<figcaption>Listing 18-4: 定义 <code>Screen</code> 结构体，其中 <code>components</code> 字段保存实现 <code>Draw</code> trait 的 trait 对象向量</figcaption>
+</figure>
+<p>在 <code>Screen</code> 结构体上，我们将定义一个名为 <code>run</code> 的方法，该方法将在其 <code>components</code> 中的每个组件上调用 <code>draw</code> 方法，如 Listing 18-5 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground"><span class="boring">pub trait Draw {
+</span><span class="boring">    fn draw(&amp;self);
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">pub struct Screen {
+</span><span class="boring">    pub components: Vec&lt;Box&lt;dyn Draw&gt;&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Screen {
+    pub fn run(&amp;self) {
+        for component in self.components.iter() {
+            component.draw();
+        }
+    }
+}</code></pre>
+<figcaption>Listing 18-5: <code>Screen</code> 上的 <code>run</code> 方法，它在每个组件上调用 <code>draw</code> 方法</figcaption>
+</figure>
+<p>这与使用带有 trait 约束的泛型类型参数定义结构体不同。泛型类型参数一次只能替换为一个具体类型，而 trait 对象允许在运行时用多个具体类型填充 trait 对象。例如，我们可以使用泛型类型和 trait 约束来定义 <code>Screen</code> 结构体，如 Listing 18-6 所示：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground"><span class="boring">pub trait Draw {
+</span><span class="boring">    fn draw(&amp;self);
+</span><span class="boring">}
+</span><span class="boring">
+</span>pub struct Screen&lt;T: Draw&gt; {
+    pub components: Vec&lt;T&gt;,
+}
+
+impl&lt;T&gt; Screen&lt;T&gt;
+where
+    T: Draw,
+{
+    pub fn run(&amp;self) {
+        for component in self.components.iter() {
+            component.draw();
+        }
+    }
+}</code></pre>
+<figcaption>Listing 18-6: 使用泛型和 trait 约束的 <code>Screen</code> 结构体及其 <code>run</code> 方法的替代实现</figcaption>
+</figure>
+<p>这将我们限制为具有所有组件类型为 <code>Button</code> 或所有组件类型为 <code>TextField</code> 的 <code>Screen</code> 实例。如果你只会有同质集合，使用泛型和 trait 约束是更可取的，因为这些定义将在编译时单态化为使用具体类型。</p>
+<p>另一方面，使用 trait 对象的方法，一个 <code>Screen</code> 实例可以包含一个 <code>Vec&lt;T&gt;</code>，其中包含 <code>Box&lt;Button&gt;</code> 和 <code>Box&lt;TextField&gt;</code>。让我们看看这是如何工作的，然后我们将讨论运行时性能的影响。</p>
+<h3 id="实现-trait"><a class="header" href="#实现-trait">实现 Trait</a></h3>
+<p>现在我们将添加一些实现 <code>Draw</code> trait 的类型。我们将提供 <code>Button</code> 类型。再次强调，实际实现 GUI 库超出了本书的范围，因此 <code>draw</code> 方法在其主体中不会有任何有用的实现。为了想象实现可能是什么样子，<code>Button</code> 结构体可能有 <code>width</code>、<code>height</code> 和 <code>label</code> 字段，如 Listing 18-7 所示：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground"><span class="boring">pub trait Draw {
+</span><span class="boring">    fn draw(&amp;self);
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">pub struct Screen {
+</span><span class="boring">    pub components: Vec&lt;Box&lt;dyn Draw&gt;&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Screen {
+</span><span class="boring">    pub fn run(&amp;self) {
+</span><span class="boring">        for component in self.components.iter() {
+</span><span class="boring">            component.draw();
+</span><span class="boring">        }
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span>pub struct Button {
+    pub width: u32,
+    pub height: u32,
+    pub label: String,
+}
+
+impl Draw for Button {
+    fn draw(&amp;self) {
+        // code to actually draw a button
+    }
+}</code></pre>
+<figcaption>Listing 18-7: 实现 <code>Draw</code> trait 的 <code>Button</code> 结构体</figcaption>
+</figure>
+<p><code>Button</code> 上的 <code>width</code>、<code>height</code> 和 <code>label</code> 字段将与其他组件上的字段不同；例如，<code>TextField</code> 类型可能有这些相同的字段加上一个 <code>placeholder</code> 字段。我们想要在屏幕上绘制的每种类型都将实现 <code>Draw</code> trait，但将在 <code>draw</code> 方法中使用不同的代码来定义如何绘制该特定类型，如 <code>Button</code> 在这里所做的那样（没有实际的 GUI 代码，如前所述）。例如，<code>Button</code> 类型可能有一个额外的 <code>impl</code> 块，其中包含与用户点击按钮时发生的情况相关的方法。这些方法不适用于像 <code>TextField</code> 这样的类型。</p>
+<p>如果使用我们库的人决定实现一个具有 <code>width</code>、<code>height</code> 和 <code>options</code> 字段的 <code>SelectBox</code> 结构体，他们将在 <code>SelectBox</code> 类型上实现 <code>Draw</code> trait，如 Listing 18-8 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore">use gui::Draw;
+
+struct SelectBox {
+    width: u32,
+    height: u32,
+    options: Vec&lt;String&gt;,
+}
+
+impl Draw for SelectBox {
+    fn draw(&amp;self) {
+        // code to actually draw a select box
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {}</span></code></pre>
+<figcaption>Listing 18-8: 另一个使用 <code>gui</code> 并在 <code>SelectBox</code> 结构体上实现 <code>Draw</code> trait 的 crate</figcaption>
+</figure>
+<p>我们库的用户现在可以编写他们的 <code>main</code> 函数来创建一个 <code>Screen</code> 实例。他们可以向 <code>Screen</code> 实例添加一个 <code>SelectBox</code> 和一个 <code>Button</code>，方法是将每个放入 <code>Box&lt;T&gt;</code> 中以成为 trait 对象。然后他们可以调用 <code>Screen</code> 实例上的 <code>run</code> 方法，该方法将在每个组件上调用 <code>draw</code>。Listing 18-9 展示了这个实现：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">use gui::Draw;
+</span><span class="boring">
+</span><span class="boring">struct SelectBox {
+</span><span class="boring">    width: u32,
+</span><span class="boring">    height: u32,
+</span><span class="boring">    options: Vec&lt;String&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Draw for SelectBox {
+</span><span class="boring">    fn draw(&amp;self) {
+</span><span class="boring">        // code to actually draw a select box
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span>use gui::{Button, Screen};
+
+fn main() {
+    let screen = Screen {
+        components: vec![
+            Box::new(SelectBox {
+                width: 75,
+                height: 10,
+                options: vec![
+                    String::from("Yes"),
+                    String::from("Maybe"),
+                    String::from("No"),
+                ],
+            }),
+            Box::new(Button {
+                width: 50,
+                height: 10,
+                label: String::from("OK"),
+            }),
+        ],
+    };
+
+    screen.run();
+}</code></pre>
+<figcaption>Listing 18-9: 使用 trait 对象存储实现相同 trait 的不同类型的值</figcaption>
+</figure>
+<p>当我们编写库时，我们不知道有人可能会添加 <code>SelectBox</code> 类型，但我们的 <code>Screen</code> 实现能够操作新类型并绘制它，因为 <code>SelectBox</code> 实现了 <code>Draw</code> trait，这意味着它实现了 <code>draw</code> 方法。</p>
+<p>这个概念——只关心值响应的消息而不是值的具体类型——类似于动态类型语言中的 <em>鸭子类型</em> 概念：如果它走起来像鸭子，叫起来像鸭子，那么它一定是鸭子！在 Listing 18-5 中 <code>Screen</code> 上的 <code>run</code> 实现中，<code>run</code> 不需要知道每个组件的具体类型是什么。它不检查组件是 <code>Button</code> 还是 <code>SelectBox</code> 的实例，它只是在组件上调用 <code>draw</code> 方法。通过指定 <code>Box&lt;dyn Draw&gt;</code> 作为 <code>components</code> 向量中值的类型，我们定义了 <code>Screen</code> 需要我们可以调用 <code>draw</code> 方法的值。</p>
+<p>使用 trait 对象和 Rust 的类型系统编写类似于使用鸭子类型的代码的优势在于，我们不必在运行时检查值是否实现了特定方法，也不必担心如果值没有实现方法但我们仍然调用它时会出现错误。如果值没有实现 trait 对象所需的 trait，Rust 将不会编译我们的代码。</p>
+<p>例如，Listing 18-10 展示了如果我们尝试创建一个以 <code>String</code> 作为组件的 <code>Screen</code> 会发生什么。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile">use gui::Screen;
+
+fn main() {
+    let screen = Screen {
+        components: vec![Box::new(String::from("Hi"))],
+    };
+
+    screen.run();
+}</code></pre>
+<figcaption>Listing 18-10: 尝试使用未实现 trait 对象的 trait 的类型</figcaption>
+</figure>
+<p>我们会得到这个错误，因为 <code>String</code> 没有实现 <code>Draw</code> trait：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling gui v0.1.0 (file:///projects/gui)
+error[E0277]: the trait bound `String: Draw` is not satisfied
+ --&gt; src/main.rs:5:26
+  |
+5 |         components: vec![Box::new(String::from("Hi"))],
+  |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `Draw` is not implemented for `String`
+  |
+  = help: the trait `Draw` is implemented for `Button`
+  = note: required for the cast from `Box&lt;String&gt;` to `Box&lt;dyn Draw&gt;`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `gui` (bin "gui") due to 1 previous error
+</code></pre>
+<p>这个错误让我们知道，我们要么向 <code>Screen</code> 传递了我们不打算传递的东西，因此应该传递不同的类型，要么我们应该在 <code>String</code> 上实现 <code>Draw</code>，以便 <code>Screen</code> 能够在其上调用 <code>draw</code>。</p>
+<h3 id="trait-对象执行动态分派"><a class="header" href="#trait-对象执行动态分派">Trait 对象执行动态分派</a></h3>
+<p>回想一下第 10 章中 <a href="ch10-01-syntax.html#performance-of-code-using-generics">“使用泛型的代码性能”</a> 中我们对编译器对泛型执行的单态化过程的讨论：编译器为我们使用的每个具体类型生成函数和方法的非泛型实现。单态化产生的代码执行的是 <em>静态分派</em>，这是编译器在编译时知道你在调用哪个方法的情况。这与 <em>动态分派</em> 相反，动态分派是编译器在编译时无法确定你在调用哪个方法的情况。在动态分派的情况下，编译器会生成代码，在运行时确定要调用哪个方法。</p>
+<p>当我们使用 trait 对象时，Rust 必须使用动态分派。编译器不知道可能与使用 trait 对象的代码一起使用的所有类型，因此它不知道要调用哪个类型上的哪个方法。相反，在运行时，Rust 使用 trait 对象内部的指针来确定要调用哪个方法。这种查找会产生运行时成本，而静态分派不会产生这种成本。动态分派还阻止编译器选择内联方法的代码，这反过来又阻止了一些优化，Rust 有一些关于在哪里可以使用和不能使用动态分派的规则，称为 <em>dyn 兼容性</em>。这些规则超出了本次讨论的范围，但你可以在 <a href="https://doc.rust-lang.org/reference/items/traits.html#dyn-compatibility">参考</a> 中阅读更多关于它们的信息。然而，我们在 Listing 18-5 中编写的代码确实获得了额外的灵活性，并且能够在 Listing 18-9 中支持，因此这是一个需要考虑的权衡。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch18-01-what-is-oo.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch18-03-oo-design-patterns.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch18-01-what-is-oo.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch18-03-oo-design-patterns.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

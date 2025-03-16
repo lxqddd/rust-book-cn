@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Hello, Cargo! - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="hello-cargo"><a class="header" href="#hello-cargo">Hello, Cargo!</a></h2>
+<p>Cargo 是 Rust 的构建系统和包管理器。大多数 Rust 开发者使用这个工具来管理他们的 Rust 项目，因为 Cargo 为你处理了许多任务，比如构建你的代码、下载你的代码所依赖的库，并构建这些库。（我们称你的代码所需的库为 <em>依赖项</em>。）</p>
+<p>最简单的 Rust 程序，比如我们目前编写的这个，没有任何依赖项。如果我们使用 Cargo 构建“Hello, world!”项目，它只会使用 Cargo 处理代码构建的部分。随着你编写更复杂的 Rust 程序，你会添加依赖项，如果你使用 Cargo 启动项目，添加依赖项将会变得更加容易。</p>
+<p>因为绝大多数 Rust 项目都使用 Cargo，本书的其余部分假设你也在使用 Cargo。如果你使用了<a href="ch01-01-installation.html#installation">“安装”</a><!-- ignore -->部分讨论的官方安装程序，Cargo 会随 Rust 一起安装。如果你通过其他方式安装了 Rust，可以通过在终端中输入以下命令来检查是否安装了 Cargo：</p>
+<pre><code class="language-console">$ cargo --version
+</code></pre>
+<p>如果你看到一个版本号，说明你已经安装了 Cargo！如果你看到一个错误，比如 <code>command not found</code>，请查看你安装方法的文档，以确定如何单独安装 Cargo。</p>
+<h3 id="使用-cargo-创建项目"><a class="header" href="#使用-cargo-创建项目">使用 Cargo 创建项目</a></h3>
+<p>让我们使用 Cargo 创建一个新项目，并看看它与我们最初的“Hello, world!”项目有何不同。导航回你的 <em>projects</em> 目录（或你决定存储代码的任何地方）。然后，在任何操作系统上运行以下命令：</p>
+<pre><code class="language-console">$ cargo new hello_cargo
+$ cd hello_cargo
+</code></pre>
+<p>第一个命令创建了一个名为 <em>hello_cargo</em> 的新目录和项目。我们将项目命名为 <em>hello_cargo</em>，Cargo 会在同名目录中创建其文件。</p>
+<p>进入 <em>hello_cargo</em> 目录并列出文件。你会看到 Cargo 为我们生成了两个文件和一个目录：一个 <em>Cargo.toml</em> 文件和一个包含 <em>main.rs</em> 文件的 <em>src</em> 目录。</p>
+<p>它还初始化了一个新的 Git 仓库，并附带了一个 <em>.gitignore</em> 文件。如果你在现有的 Git 仓库中运行 <code>cargo new</code>，则不会生成 Git 文件；你可以通过使用 <code>cargo new --vcs=git</code> 来覆盖此行为。</p>
+<blockquote>
+<p>注意：Git 是一个常见的版本控制系统。你可以通过使用 <code>--vcs</code> 标志来更改 <code>cargo new</code> 以使用不同的版本控制系统或不使用版本控制系统。运行 <code>cargo new --help</code> 查看可用的选项。</p>
+</blockquote>
+<p>在你选择的文本编辑器中打开 <em>Cargo.toml</em>。它应该类似于 Listing 1-2 中的代码。</p>
+<figure class="listing">
+<span class="file-name">Filename: Cargo.toml</span>
+<pre><code class="language-toml">[package]
+name = "hello_cargo"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+</code></pre>
+<figcaption>Listing 1-2: 由 <code>cargo new</code> 生成的 <em>Cargo.toml</em> 的内容</figcaption>
+</figure>
+<p>这个文件采用 <a href="https://toml.io"><em>TOML</em></a><!-- ignore -->（<em>Tom’s Obvious, Minimal Language</em>）格式，这是 Cargo 的配置格式。</p>
+<p>第一行 <code>[package]</code> 是一个部分标题，表示以下语句正在配置一个包。随着我们向这个文件添加更多信息，我们将添加其他部分。</p>
+<p>接下来的三行设置了 Cargo 编译你的程序所需的配置信息：名称、版本和要使用的 Rust 版本。我们将在<a href="appendix-05-editions.html">附录 E</a><!-- ignore -->中讨论 <code>edition</code> 键。</p>
+<p>最后一行 <code>[dependencies]</code> 是一个部分的开始，用于列出你的项目的任何依赖项。在 Rust 中，代码包被称为 <em>crates</em>。我们在这个项目中不需要任何其他 crate，但在第二章的第一个项目中会需要，所以我们将在那时使用这个依赖项部分。</p>
+<p>现在打开 <em>src/main.rs</em> 并查看：</p>
+<p><span class="filename">文件名: src/main.rs</span></p>
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
+    println!("Hello, world!");
+}</code></pre></pre>
+<p>Cargo 为你生成了一个“Hello, world!”程序，就像我们在 Listing 1-1 中编写的那个！到目前为止，我们的项目与 Cargo 生成的项目之间的区别在于，Cargo 将代码放在了 <em>src</em> 目录中，并且我们在顶层目录中有一个 <em>Cargo.toml</em> 配置文件。</p>
+<p>Cargo 期望你的源文件位于 <em>src</em> 目录中。顶层项目目录仅用于 README 文件、许可证信息、配置文件以及任何与代码无关的内容。使用 Cargo 有助于你组织项目。每个东西都有其位置，每个东西都在其位置上。</p>
+<p>如果你启动了一个不使用 Cargo 的项目，就像我们使用“Hello, world!”项目一样，你可以将其转换为使用 Cargo 的项目。将项目代码移动到 <em>src</em> 目录中，并创建一个适当的 <em>Cargo.toml</em> 文件。获取该 <em>Cargo.toml</em> 文件的一个简单方法是运行 <code>cargo init</code>，它会自动为你创建它。</p>
+<h3 id="构建和运行-cargo-项目"><a class="header" href="#构建和运行-cargo-项目">构建和运行 Cargo 项目</a></h3>
+<p>现在让我们看看使用 Cargo 构建和运行“Hello, world!”程序时有什么不同！从你的 <em>hello_cargo</em> 目录中，通过输入以下命令来构建你的项目：</p>
+<pre><code class="language-console">$ cargo build
+   Compiling hello_cargo v0.1.0 (file:///projects/hello_cargo)
+    Finished dev [unoptimized + debuginfo] target(s) in 2.85 secs
+</code></pre>
+<p>这个命令在 <em>target/debug/hello_cargo</em>（或在 Windows 上是 <em>target\debug\hello_cargo.exe</em>）中创建一个可执行文件，而不是在你的当前目录中。因为默认构建是调试构建，Cargo 将二进制文件放在名为 <em>debug</em> 的目录中。你可以使用以下命令运行可执行文件：</p>
+<pre><code class="language-console">$ ./target/debug/hello_cargo # 或者在 Windows 上是 .\target\debug\hello_cargo.exe
+Hello, world!
+</code></pre>
+<p>如果一切顺利，<code>Hello, world!</code> 应该会打印到终端。第一次运行 <code>cargo build</code> 还会导致 Cargo 在顶层创建一个新文件：<em>Cargo.lock</em>。这个文件跟踪项目中依赖项的确切版本。这个项目没有依赖项，所以文件有点稀疏。你永远不需要手动更改这个文件；Cargo 会为你管理其内容。</p>
+<p>我们刚刚使用 <code>cargo build</code> 构建了一个项目，并使用 <code>./target/debug/hello_cargo</code> 运行它，但我们也可以使用 <code>cargo run</code> 来编译代码，然后在一个命令中运行生成的可执行文件：</p>
+<pre><code class="language-console">$ cargo run
+    Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
+     Running `target/debug/hello_cargo`
+Hello, world!
+</code></pre>
+<p>使用 <code>cargo run</code> 比记住运行 <code>cargo build</code> 然后使用二进制文件的完整路径更方便，因此大多数开发者使用 <code>cargo run</code>。</p>
+<p>注意，这次我们没有看到表明 Cargo 正在编译 <code>hello_cargo</code> 的输出。Cargo 发现文件没有改变，所以它没有重新构建，而是直接运行了二进制文件。如果你修改了源代码，Cargo 会在运行之前重新构建项目，你会看到以下输出：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling hello_cargo v0.1.0 (file:///projects/hello_cargo)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.33 secs
+     Running `target/debug/hello_cargo`
+Hello, world!
+</code></pre>
+<p>Cargo 还提供了一个名为 <code>cargo check</code> 的命令。这个命令快速检查你的代码以确保它可以编译，但不会生成可执行文件：</p>
+<pre><code class="language-console">$ cargo check
+   Checking hello_cargo v0.1.0 (file:///projects/hello_cargo)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.32 secs
+</code></pre>
+<p>为什么你不需要可执行文件？通常，<code>cargo check</code> 比 <code>cargo build</code> 快得多，因为它跳过了生成可执行文件的步骤。如果你在编写代码时不断检查你的工作，使用 <code>cargo check</code> 将加快让你知道你的项目是否仍在编译的过程！因此，许多 Rust 开发者在编写程序时定期运行 <code>cargo check</code>，以确保它能够编译。然后，当他们准备好使用可执行文件时，他们会运行 <code>cargo build</code>。</p>
+<p>让我们回顾一下我们到目前为止学到的关于 Cargo 的内容：</p>
+<ul>
+<li>我们可以使用 <code>cargo new</code> 创建一个项目。</li>
+<li>我们可以使用 <code>cargo build</code> 构建一个项目。</li>
+<li>我们可以使用 <code>cargo run</code> 在一个步骤中构建并运行一个项目。</li>
+<li>我们可以使用 <code>cargo check</code> 构建一个项目而不生成二进制文件以检查错误。</li>
+<li>Cargo 将构建结果存储在 <em>target/debug</em> 目录中，而不是与我们的代码保存在同一目录中。</li>
+</ul>
+<p>使用 Cargo 的另一个优点是，无论你在哪个操作系统上工作，命令都是相同的。因此，在这一点上，我们将不再提供针对 Linux 和 macOS 与 Windows 的具体说明。</p>
+<h3 id="发布构建"><a class="header" href="#发布构建">发布构建</a></h3>
+<p>当你的项目最终准备好发布时，你可以使用 <code>cargo build --release</code> 来编译它并进行优化。这个命令将在 <em>target/release</em> 而不是 <em>target/debug</em> 中创建一个可执行文件。优化使你的 Rust 代码运行得更快，但启用它们会延长程序的编译时间。这就是为什么有两种不同的配置文件：一种用于开发，当你希望快速且频繁地重新构建时；另一种用于构建最终程序，你将把它交给用户，不会重复构建，并且会尽可能快地运行。如果你在基准测试代码的运行时间，请确保运行 <code>cargo build --release</code> 并使用 <em>target/release</em> 中的可执行文件进行基准测试。</p>
+<h3 id="cargo-作为惯例"><a class="header" href="#cargo-作为惯例">Cargo 作为惯例</a></h3>
+<p>对于简单的项目，Cargo 并没有比直接使用 <code>rustc</code> 提供太多价值，但随着你的程序变得更加复杂，它将证明其价值。一旦程序增长到多个文件或需要依赖项，让 Cargo 协调构建会容易得多。</p>
+<p>尽管 <code>hello_cargo</code> 项目很简单，但它现在使用了许多你在 Rust 职业生涯中会使用的真实工具。事实上，要处理任何现有项目，你可以使用以下命令通过 Git 检出代码，切换到该项目的目录，并进行构建：</p>
+<pre><code class="language-console">$ git clone example.org/someproject
+$ cd someproject
+$ cargo build
+</code></pre>
+<p>有关 Cargo 的更多信息，请查看<a href="https://doc.rust-lang.org/cargo/">其文档</a>。</p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p>你已经开始了 Rust 之旅的精彩开端！在本章中，你学会了如何：</p>
+<ul>
+<li>使用 <code>rustup</code> 安装最新的稳定版 Rust</li>
+<li>更新到较新的 Rust 版本</li>
+<li>打开本地安装的文档</li>
+<li>直接使用 <code>rustc</code> 编写并运行“Hello, world!”程序</li>
+<li>使用 Cargo 的惯例创建并运行一个新项目</li>
+</ul>
+<p>现在是构建一个更实质性的程序以习惯阅读和编写 Rust 代码的好时机。因此，在第二章中，我们将构建一个猜数字游戏程序。如果你更愿意从学习 Rust 中常见的编程概念开始，请参见第三章，然后返回第二章。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch01-02-hello-world.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch02-00-guessing-game-tutorial.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch01-02-hello-world.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch02-00-guessing-game-tutorial.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

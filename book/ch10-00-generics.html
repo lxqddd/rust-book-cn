@@ -1,0 +1,313 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>泛型、特性和生命周期 - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="泛型trait-和生命周期"><a class="header" href="#泛型trait-和生命周期">泛型、Trait 和生命周期</a></h1>
+<p>每种编程语言都有有效处理概念重复的工具。在 Rust 中，其中一个工具就是 <em>泛型</em>：具体类型或其他属性的抽象替代。我们可以在编译和运行代码时不知道泛型的具体内容的情况下，表达泛型的行为或它们与其他泛型的关系。</p>
+<p>函数可以接受某些泛型类型的参数，而不是像 <code>i32</code> 或 <code>String</code> 这样的具体类型，就像它们接受未知值的参数以在多个具体值上运行相同的代码一样。事实上，我们已经在第 6 章中使用过 <code>Option&lt;T&gt;</code>，在第 8 章中使用过 <code>Vec&lt;T&gt;</code> 和 <code>HashMap&lt;K, V&gt;</code>，在第 9 章中使用过 <code>Result&lt;T, E&gt;</code>。在本章中，你将探索如何使用泛型定义自己的类型、函数和方法！</p>
+<p>首先，我们将回顾如何提取函数以减少代码重复。然后，我们将使用相同的技术从两个仅在参数类型上不同的函数中创建一个泛型函数。我们还将解释如何在结构体和枚举定义中使用泛型类型。</p>
+<p>然后，你将学习如何使用 <em>trait</em> 以泛型的方式定义行为。你可以将 trait 与泛型类型结合，以限制泛型类型只接受具有特定行为的类型，而不是任意类型。</p>
+<p>最后，我们将讨论 <em>生命周期</em>：一种泛型，它向编译器提供有关引用如何相互关联的信息。生命周期允许我们向编译器提供足够的信息，以便它能够确保引用在更多情况下有效，而不是在没有我们帮助的情况下。</p>
+<h2 id="通过提取函数消除重复"><a class="header" href="#通过提取函数消除重复">通过提取函数消除重复</a></h2>
+<p>泛型允许我们用代表多个类型的占位符替换特定类型，以消除代码重复。在深入泛型语法之前，让我们先看看如何通过提取函数来消除不涉及泛型类型的重复代码，该函数用代表多个值的占位符替换特定值。然后，我们将应用相同的技术来提取一个泛型函数！通过了解如何识别可以提取到函数中的重复代码，你将开始识别可以使用泛型的重复代码。</p>
+<p>我们将从 Listing 10-1 中的简短程序开始，该程序在列表中查找最大的数字。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let mut largest = &amp;number_list[0];
+
+    for number in &amp;number_list {
+        if number &gt; largest {
+            largest = number;
+        }
+    }
+
+    println!("The largest number is {largest}");
+<span class="boring">    assert_eq!(*largest, 100);
+</span>}</code></pre></pre>
+<figcaption>Listing 10-1: 在数字列表中查找最大的数字</figcaption>
+</figure>
+<p>我们将整数列表存储在变量 <code>number_list</code> 中，并将列表中第一个数字的引用存储在名为 <code>largest</code> 的变量中。然后，我们遍历列表中的所有数字，如果当前数字大于存储在 <code>largest</code> 中的数字，则替换该变量中的引用。然而，如果当前数字小于或等于到目前为止看到的最大数字，变量不会改变，代码继续处理列表中的下一个数字。在考虑了列表中的所有数字后，<code>largest</code> 应该引用最大的数字，在本例中为 100。</p>
+<p>我们现在被要求在两个不同的数字列表中查找最大的数字。为此，我们可以选择复制 Listing 10-1 中的代码，并在程序的两个不同位置使用相同的逻辑，如 Listing 10-2 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let mut largest = &amp;number_list[0];
+
+    for number in &amp;number_list {
+        if number &gt; largest {
+            largest = number;
+        }
+    }
+
+    println!("The largest number is {largest}");
+
+    let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
+
+    let mut largest = &amp;number_list[0];
+
+    for number in &amp;number_list {
+        if number &gt; largest {
+            largest = number;
+        }
+    }
+
+    println!("The largest number is {largest}");
+}</code></pre></pre>
+<figcaption>Listing 10-2: 在<em>两个</em>数字列表中查找最大数字的代码</figcaption>
+</figure>
+<p>尽管这段代码可以工作，但重复代码是繁琐且容易出错的。当我们想要更改代码时，还必须记住在多个地方更新代码。</p>
+<p>为了消除这种重复，我们将通过定义一个函数来创建一个抽象，该函数对作为参数传递的任何整数列表进行操作。这个解决方案使我们的代码更清晰，并让我们抽象地表达在列表中查找最大数字的概念。</p>
+<p>在 Listing 10-3 中，我们将查找最大数字的代码提取到一个名为 <code>largest</code> 的函数中。然后我们调用该函数来查找 Listing 10-2 中两个列表中的最大数字。我们也可以在未来对任何其他 <code>i32</code> 值列表使用该函数。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">fn largest(list: &amp;[i32]) -&gt; &amp;i32 {
+    let mut largest = &amp;list[0];
+
+    for item in list {
+        if item &gt; largest {
+            largest = item;
+        }
+    }
+
+    largest
+}
+
+fn main() {
+    let number_list = vec![34, 50, 25, 100, 65];
+
+    let result = largest(&amp;number_list);
+    println!("The largest number is {result}");
+<span class="boring">    assert_eq!(*result, 100);
+</span>
+    let number_list = vec![102, 34, 6000, 89, 54, 2, 43, 8];
+
+    let result = largest(&amp;number_list);
+    println!("The largest number is {result}");
+<span class="boring">    assert_eq!(*result, 6000);
+</span>}</code></pre></pre>
+<figcaption>Listing 10-3: 抽象代码以查找两个列表中的最大数字</figcaption>
+</figure>
+<p><code>largest</code> 函数有一个名为 <code>list</code> 的参数，它代表我们可能传递给函数的任何具体 <code>i32</code> 值切片。因此，当我们调用该函数时，代码会在我们传递的特定值上运行。</p>
+<p>总结一下，我们将代码从 Listing 10-2 更改为 Listing 10-3 的步骤如下：</p>
+<ol>
+<li>识别重复代码。</li>
+<li>将重复代码提取到函数体中，并在函数签名中指定该代码的输入和返回值。</li>
+<li>更新重复代码的两个实例以调用函数。</li>
+</ol>
+<p>接下来，我们将使用这些相同的步骤与泛型一起减少代码重复。就像函数体可以对抽象的 <code>list</code> 而不是特定值进行操作一样，泛型允许代码对抽象类型进行操作。</p>
+<p>例如，假设我们有两个函数：一个在 <code>i32</code> 值切片中查找最大项，另一个在 <code>char</code> 值切片中查找最大项。我们如何消除这种重复？让我们找出答案！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch09-03-to-panic-or-not-to-panic.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch10-01-syntax.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch09-03-to-panic-or-not-to-panic.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch10-01-syntax.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

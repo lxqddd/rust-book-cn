@@ -1,0 +1,593 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>闭包：捕获其环境的匿名函数 - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- 旧标题。请勿删除，否则链接可能会失效。 -->
+<p><a id="closures-anonymous-functions-that-can-capture-their-environment"></a></p>
+<h2 id="闭包可以捕获环境的匿名函数"><a class="header" href="#闭包可以捕获环境的匿名函数">闭包：可以捕获环境的匿名函数</a></h2>
+<p>Rust 的闭包是可以保存在变量中或作为参数传递给其他函数的匿名函数。你可以在一个地方创建闭包，然后在另一个地方调用它，以在不同的上下文中执行它。与函数不同，闭包可以从定义它们的作用域中捕获值。我们将展示这些闭包特性如何实现代码重用和行为定制。</p>
+<!-- 旧标题。请勿删除，否则链接可能会失效。 -->
+<p><a id="creating-an-abstraction-of-behavior-with-closures"></a>
+<a id="refactoring-using-functions"></a>
+<a id="refactoring-with-closures-to-store-code"></a></p>
+<h3 id="使用闭包捕获环境"><a class="header" href="#使用闭包捕获环境">使用闭包捕获环境</a></h3>
+<p>我们将首先研究如何使用闭包从它们定义的环境中捕获值以供以后使用。以下是场景：每隔一段时间，我们的 T 恤公司会向邮件列表中的某个人赠送一件独家限量版 T 恤作为促销活动。邮件列表中的人可以选择将他们的最喜欢的颜色添加到他们的个人资料中。如果被选中获得免费 T 恤的人设置了他们最喜欢的颜色，他们将获得该颜色的 T 恤。如果该人没有指定最喜欢的颜色，他们将获得公司当前库存最多的颜色。</p>
+<p>有许多方法可以实现这一点。在这个例子中，我们将使用一个名为 <code>ShirtColor</code> 的枚举，它有 <code>Red</code> 和 <code>Blue</code> 两个变体（为了简化，限制了可用的颜色数量）。我们用 <code>Inventory</code> 结构体表示公司的库存，该结构体有一个名为 <code>shirts</code> 的字段，包含一个 <code>Vec&lt;ShirtColor&gt;</code>，表示当前库存的 T 恤颜色。定义在 <code>Inventory</code> 上的 <code>giveaway</code> 方法获取免费 T 恤获奖者的可选 T 恤颜色偏好，并返回该人将获得的 T 恤颜色。此设置如代码清单 13-1 所示：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust noplayground">#[derive(Debug, PartialEq, Copy, Clone)]
+enum ShirtColor {
+    Red,
+    Blue,
+}
+
+struct Inventory {
+    shirts: Vec&lt;ShirtColor&gt;,
+}
+
+impl Inventory {
+    fn giveaway(&amp;self, user_preference: Option&lt;ShirtColor&gt;) -&gt; ShirtColor {
+        user_preference.unwrap_or_else(|| self.most_stocked())
+    }
+
+    fn most_stocked(&amp;self) -&gt; ShirtColor {
+        let mut num_red = 0;
+        let mut num_blue = 0;
+
+        for color in &amp;self.shirts {
+            match color {
+                ShirtColor::Red =&gt; num_red += 1,
+                ShirtColor::Blue =&gt; num_blue += 1,
+            }
+        }
+        if num_red &gt; num_blue {
+            ShirtColor::Red
+        } else {
+            ShirtColor::Blue
+        }
+    }
+}
+
+fn main() {
+    let store = Inventory {
+        shirts: vec![ShirtColor::Blue, ShirtColor::Red, ShirtColor::Blue],
+    };
+
+    let user_pref1 = Some(ShirtColor::Red);
+    let giveaway1 = store.giveaway(user_pref1);
+    println!(
+        "The user with preference {:?} gets {:?}",
+        user_pref1, giveaway1
+    );
+
+    let user_pref2 = None;
+    let giveaway2 = store.giveaway(user_pref2);
+    println!(
+        "The user with preference {:?} gets {:?}",
+        user_pref2, giveaway2
+    );
+}</code></pre>
+<figcaption>Listing 13-1: T 恤公司赠送场景</figcaption>
+</figure>
+<p>在 <code>main</code> 中定义的 <code>store</code> 有两件蓝色 T 恤和一件红色 T 恤剩余，用于此次限量版促销活动。我们为有红色 T 恤偏好的用户和没有任何偏好的用户调用 <code>giveaway</code> 方法。</p>
+<p>再次强调，这段代码可以通过多种方式实现，在这里，为了专注于闭包，我们坚持使用你已经学过的概念，除了 <code>giveaway</code> 方法的主体使用了闭包。在 <code>giveaway</code> 方法中，我们获取用户偏好作为 <code>Option&lt;ShirtColor&gt;</code> 类型的参数，并在 <code>user_preference</code> 上调用 <code>unwrap_or_else</code> 方法。标准库定义了 <a href="../std/option/enum.Option.html#method.unwrap_or_else"><code>Option&lt;T&gt;</code> 上的 <code>unwrap_or_else</code> 方法</a><!-- ignore -->。它接受一个参数：一个不带任何参数的闭包，返回一个值 <code>T</code>（与 <code>Option&lt;T&gt;</code> 的 <code>Some</code> 变体中存储的类型相同，在这种情况下是 <code>ShirtColor</code>）。如果 <code>Option&lt;T&gt;</code> 是 <code>Some</code> 变体，<code>unwrap_or_else</code> 返回 <code>Some</code> 中的值。如果 <code>Option&lt;T&gt;</code> 是 <code>None</code> 变体，<code>unwrap_or_else</code> 调用闭包并返回闭包返回的值。</p>
+<p>我们将闭包表达式 <code>|| self.most_stocked()</code> 指定为 <code>unwrap_or_else</code> 的参数。这是一个不带参数的闭包（如果闭包有参数，它们将出现在两个竖线之间）。闭包的主体调用 <code>self.most_stocked()</code>。我们在这里定义闭包，<code>unwrap_or_else</code> 的实现将在需要结果时评估闭包。</p>
+<p>运行此代码会打印：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling shirt-company v0.1.0 (file:///projects/shirt-company)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.27s
+     Running `target/debug/shirt-company`
+The user with preference Some(Red) gets Red
+The user with preference None gets Blue
+</code></pre>
+<p>这里一个有趣的方面是，我们传递了一个在当前 <code>Inventory</code> 实例上调用 <code>self.most_stocked()</code> 的闭包。标准库不需要了解我们定义的 <code>Inventory</code> 或 <code>ShirtColor</code> 类型，或者我们在此场景中想要使用的逻辑。闭包捕获了对 <code>self</code> <code>Inventory</code> 实例的不可变引用，并将其与我们指定的代码一起传递给 <code>unwrap_or_else</code> 方法。另一方面，函数无法以这种方式捕获它们的环境。</p>
+<h3 id="闭包类型推断和注解"><a class="header" href="#闭包类型推断和注解">闭包类型推断和注解</a></h3>
+<p>函数和闭包之间还有更多区别。闭包通常不需要像 <code>fn</code> 函数那样注解参数或返回值的类型。函数需要类型注解，因为类型是暴露给用户的显式接口的一部分。严格定义此接口对于确保每个人都同意函数使用和返回的值类型非常重要。另一方面，闭包不会像这样暴露在接口中：它们存储在变量中，并在不命名它们的情况下使用，不会暴露给我们库的用户。</p>
+<p>闭包通常很短，并且仅在狭窄的上下文中相关，而不是在任意场景中。在这些有限的上下文中，编译器可以推断参数和返回值的类型，类似于它能够推断大多数变量的类型（在极少数情况下，编译器也需要闭包类型注解）。</p>
+<p>与变量一样，如果我们希望增加明确性和清晰度，可以添加类型注解，尽管这会使代码比严格必要的更冗长。为闭包添加类型注解将如代码清单 13-2 所示。在这个例子中，我们定义了一个闭包并将其存储在变量中，而不是像代码清单 13-1 中那样在传递它作为参数的地方定义闭包。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::thread;
+</span><span class="boring">use std::time::Duration;
+</span><span class="boring">
+</span><span class="boring">fn generate_workout(intensity: u32, random_number: u32) {
+</span>    let expensive_closure = |num: u32| -&gt; u32 {
+        println!("calculating slowly...");
+        thread::sleep(Duration::from_secs(2));
+        num
+    };
+<span class="boring">
+</span><span class="boring">    if intensity &lt; 25 {
+</span><span class="boring">        println!("Today, do {} pushups!", expensive_closure(intensity));
+</span><span class="boring">        println!("Next, do {} situps!", expensive_closure(intensity));
+</span><span class="boring">    } else {
+</span><span class="boring">        if random_number == 3 {
+</span><span class="boring">            println!("Take a break today! Remember to stay hydrated!");
+</span><span class="boring">        } else {
+</span><span class="boring">            println!(
+</span><span class="boring">                "Today, run for {} minutes!",
+</span><span class="boring">                expensive_closure(intensity)
+</span><span class="boring">            );
+</span><span class="boring">        }
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let simulated_user_specified_value = 10;
+</span><span class="boring">    let simulated_random_number = 7;
+</span><span class="boring">
+</span><span class="boring">    generate_workout(simulated_user_specified_value, simulated_random_number);
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 13-2: 在闭包中添加可选的参数和返回值类型注解</figcaption>
+</figure>
+<p>添加类型注解后，闭包的语法看起来更类似于函数的语法。这里我们定义了一个将其参数加 1 的函数和一个具有相同行为的闭包，以进行比较。我们添加了一些空格以对齐相关部分。这说明了闭包语法与函数语法的相似之处，除了使用管道和语法的可选部分：</p>
+<pre><code class="language-rust ignore">fn  add_one_v1   (x: u32) -&gt; u32 { x + 1 }
+let add_one_v2 = |x: u32| -&gt; u32 { x + 1 };
+let add_one_v3 = |x|             { x + 1 };
+let add_one_v4 = |x|               x + 1  ;</code></pre>
+<p>第一行显示了一个函数定义，第二行显示了一个完全注解的闭包定义。在第三行中，我们从闭包定义中删除了类型注解。在第四行中，我们删除了大括号，因为闭包主体只有一个表达式，所以大括号是可选的。这些都是有效的定义，当它们被调用时会产生相同的行为。<code>add_one_v3</code> 和 <code>add_one_v4</code> 行要求闭包被评估才能编译，因为类型将从它们的用法中推断出来。这类似于 <code>let v = Vec::new();</code> 需要类型注解或将某种类型的值插入 <code>Vec</code> 中，以便 Rust 能够推断类型。</p>
+<p>对于闭包定义，编译器将为它们的每个参数和返回值推断一个具体类型。例如，代码清单 13-3 显示了一个短闭包的定义，它只返回它接收到的参数值。这个闭包除了用于此示例的目的外并不十分有用。请注意，我们没有在定义中添加任何类型注解。因为没有类型注解，我们可以用任何类型调用闭包，这里我们第一次用 <code>String</code> 调用它。如果我们随后尝试用整数调用 <code>example_closure</code>，我们会得到一个错误。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
+</span>    let example_closure = |x| x;
+
+    let s = example_closure(String::from("hello"));
+    let n = example_closure(5);
+<span class="boring">}</span></code></pre>
+<figcaption>Listing 13-3: 尝试用两种不同的类型调用一个类型推断的闭包</figcaption>
+</figure>
+<p>编译器给我们这个错误：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling closure-example v0.1.0 (file:///projects/closure-example)
+error[E0308]: mismatched types
+ --&gt; src/main.rs:5:29
+  |
+5 |     let n = example_closure(5);
+  |             --------------- ^- help: try using a conversion method: `.to_string()`
+  |             |               |
+  |             |               expected `String`, found integer
+  |             arguments to this function are incorrect
+  |
+note: expected because the closure was earlier called with an argument of type `String`
+ --&gt; src/main.rs:4:29
+  |
+4 |     let s = example_closure(String::from("hello"));
+  |             --------------- ^^^^^^^^^^^^^^^^^^^^^ expected because this argument is of type `String`
+  |             |
+  |             in this closure call
+note: closure parameter defined here
+ --&gt; src/main.rs:2:28
+  |
+2 |     let example_closure = |x| x;
+  |                            ^
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `closure-example` (bin "closure-example") due to 1 previous error
+</code></pre>
+<p>我们第一次用 <code>String</code> 值调用 <code>example_closure</code> 时，编译器推断 <code>x</code> 的类型和闭包的返回类型为 <code>String</code>。这些类型随后被锁定在 <code>example_closure</code> 中的闭包中，当我们下次尝试用不同的类型使用同一个闭包时，我们会得到一个类型错误。</p>
+<h3 id="捕获引用或移动所有权"><a class="header" href="#捕获引用或移动所有权">捕获引用或移动所有权</a></h3>
+<p>闭包可以通过三种方式从环境中捕获值，这直接映射到函数可以接受参数的三种方式：不可变借用、可变借用和获取所有权。闭包将根据函数主体如何处理捕获的值来决定使用哪种方式。</p>
+<p>在代码清单 13-4 中，我们定义了一个闭包，它捕获了对名为 <code>list</code> 的向量的不可变引用，因为它只需要一个不可变引用来打印值：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
+    let list = vec![1, 2, 3];
+    println!("Before defining closure: {list:?}");
+
+    let only_borrows = || println!("From closure: {list:?}");
+
+    println!("Before calling closure: {list:?}");
+    only_borrows();
+    println!("After calling closure: {list:?}");
+}</code></pre></pre>
+<figcaption>Listing 13-4: 定义并调用一个捕获不可变引用的闭包</figcaption>
+</figure>
+<p>这个例子还说明了一个变量可以绑定到一个闭包定义，我们可以稍后通过使用变量名和括号来调用闭包，就像变量名是函数名一样。</p>
+<p>因为我们可以同时拥有多个对 <code>list</code> 的不可变引用，<code>list</code> 在闭包定义之前、闭包定义之后但在调用闭包之前以及调用闭包之后仍然可以从代码中访问。这段代码编译、运行并打印：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling closure-example v0.1.0 (file:///projects/closure-example)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
+     Running `target/debug/closure-example`
+Before defining closure: [1, 2, 3]
+Before calling closure: [1, 2, 3]
+From closure: [1, 2, 3]
+After calling closure: [1, 2, 3]
+</code></pre>
+<p>接下来，在代码清单 13-5 中，我们更改了闭包主体，使其向 <code>list</code> 向量添加一个元素。闭包现在捕获了一个可变引用：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">fn main() {
+    let mut list = vec![1, 2, 3];
+    println!("Before defining closure: {list:?}");
+
+    let mut borrows_mutably = || list.push(7);
+
+    borrows_mutably();
+    println!("After calling closure: {list:?}");
+}</code></pre></pre>
+<figcaption>Listing 13-5: 定义并调用一个捕获可变引用的闭包</figcaption>
+</figure>
+<p>这段代码编译、运行并打印：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling closure-example v0.1.0 (file:///projects/closure-example)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.43s
+     Running `target/debug/closure-example`
+Before defining closure: [1, 2, 3]
+After calling closure: [1, 2, 3, 7]
+</code></pre>
+<p>请注意，在 <code>borrows_mutably</code> 闭包的定义和调用之间不再有 <code>println!</code>：当 <code>borrows_mutably</code> 被定义时，它捕获了对 <code>list</code> 的可变引用。我们在闭包调用后不再使用闭包，因此可变借用结束。在闭包定义和闭包调用之间，不允许进行不可变借用来打印，因为在存在可变借用时不允许其他借用。尝试在那里添加一个 <code>println!</code> 看看你会得到什么错误信息！</p>
+<p>如果你希望强制闭包获取它使用的环境值的所有权，即使闭包的主体并不严格需要所有权，你可以在参数列表前使用 <code>move</code> 关键字。</p>
+<p>这种技术主要在将闭包传递给新线程以移动数据以便新线程拥有数据时有用。我们将在第 16 章讨论线程以及为什么你想使用它们时详细讨论并发，但现在，让我们简要探讨一下使用需要 <code>move</code> 关键字的闭包生成新线程。代码清单 13-6 显示了代码清单 13-4 的修改版本，以在新线程而不是主线程中打印向量：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">use std::thread;
+
+fn main() {
+    let list = vec![1, 2, 3];
+    println!("Before defining closure: {list:?}");
+
+    thread::spawn(move || println!("From thread: {list:?}"))
+        .join()
+        .unwrap();
+}</code></pre></pre>
+<figcaption>Listing 13-6: 使用 <code>move</code> 强制线程的闭包获取 <code>list</code> 的所有权</figcaption>
+</figure>
+<p>我们生成一个新线程，将闭包作为参数传递给线程运行。闭包主体打印出列表。在代码清单 13-4 中，闭包只使用不可变引用捕获了 <code>list</code>，因为这是打印它所需的最少访问量。在这个例子中，即使闭包主体仍然只需要一个不可变引用，我们需要通过在闭包定义的开头放置 <code>move</code> 关键字来指定 <code>list</code> 应该移动到闭包中。新线程可能在主线程的其余部分完成之前完成，或者主线程可能先完成。如果主线程保持对 <code>list</code> 的所有权但在新线程完成之前结束并丢弃 <code>list</code>，线程中的不可变引用将无效。因此，编译器要求将 <code>list</code> 移动到给新线程的闭包中，以便引用有效。尝试删除 <code>move</code> 关键字或在闭包定义后在主线程中使用 <code>list</code>，看看你会得到什么编译器错误！</p>
+<!-- 旧标题。请勿删除，否则链接可能会失效。 -->
+<p><a id="storing-closures-using-generic-parameters-and-the-fn-traits"></a>
+<a id="limitations-of-the-cacher-implementation"></a>
+<a id="moving-captured-values-out-of-the-closure-and-the-fn-traits"></a></p>
+<h3 id="将捕获的值移出闭包和-fn-特性"><a class="header" href="#将捕获的值移出闭包和-fn-特性">将捕获的值移出闭包和 <code>Fn</code> 特性</a></h3>
+<p>一旦闭包从定义它的环境中捕获了引用或捕获了值的所有权（从而影响什么，如果有的话，被移动到闭包中），闭包主体中的代码定义了当闭包稍后被评估时引用或值会发生什么（从而影响什么，如果有的话，被移出闭包）。闭包主体可以执行以下任何操作：将捕获的值移出闭包、改变捕获的值、既不移动也不改变值，或者根本不从环境中捕获任何内容。</p>
+<p>闭包从环境中捕获和处理值的方式会影响闭包实现的特性，而特性是函数和结构体可以指定它们可以使用哪些闭包的方式。闭包将根据闭包主体如何处理值自动实现一个、两个或所有三个 <code>Fn</code> 特性，以累加的方式：</p>
+<ol>
+<li><code>FnOnce</code> 适用于可以调用一次的闭包。所有闭包至少实现此特性，因为所有闭包都可以被调用。将捕获的值移出其主体的闭包将仅实现 <code>FnOnce</code> 而不实现其他 <code>Fn</code> 特性，因为它只能被调用一次。</li>
+<li><code>FnMut</code> 适用于不将捕获的值移出其主体但可能会改变捕获值的闭包。这些闭包可以被多次调用。</li>
+<li><code>Fn</code> 适用于不将捕获的值移出其主体且不改变捕获值的闭包，以及不捕获环境中任何内容的闭包。这些闭包可以多次调用而不改变它们的环境，这在诸如多次并发调用闭包的情况下很重要。</li>
+</ol>
+<p>让我们看看我们在代码清单 13-1 中使用的 <code>Option&lt;T&gt;</code> 上的 <code>unwrap_or_else</code> 方法的定义：</p>
+<pre><code class="language-rust ignore">impl&lt;T&gt; Option&lt;T&gt; {
+    pub fn unwrap_or_else&lt;F&gt;(self, f: F) -&gt; T
+    where
+        F: FnOnce() -&gt; T
+    {
+        match self {
+            Some(x) =&gt; x,
+            None =&gt; f(),
+        }
+    }
+}</code></pre>
+<p>回想一下，<code>T</code> 是表示 <code>Option</code> 的 <code>Some</code> 变体中值的类型的泛型类型。该类型 <code>T</code> 也是 <code>unwrap_or_else</code> 函数的返回类型：例如，在 <code>Option&lt;String&gt;</code> 上调用 <code>unwrap_or_else</code> 的代码将获得一个 <code>String</code>。</p>
+<p>接下来，注意 <code>unwrap_or_else</code> 函数有一个额外的泛型类型参数 <code>F</code>。<code>F</code> 类型是名为 <code>f</code> 的参数的类型，它是我们在调用 <code>unwrap_or_else</code> 时提供的闭包。</p>
+<p>在泛型类型 <code>F</code> 上指定的特性边界是 <code>FnOnce() -&gt; T</code>，这意味着 <code>F</code> 必须能够被调用一次，不带参数，并返回一个 <code>T</code>。在特性边界中使用 <code>FnOnce</code> 表达了 <code>unwrap_or_else</code> 最多只会调用 <code>f</code> 一次的约束。在 <code>unwrap_or_else</code> 的主体中，我们可以看到如果 <code>Option</code> 是 <code>Some</code>，<code>f</code> 不会被调用。如果 <code>Option</code> 是 <code>None</code>，<code>f</code> 将被调用一次。因为所有闭包都实现 <code>FnOnce</code>，<code>unwrap_or_else</code> 接受所有三种闭包，并且尽可能灵活。</p>
+<blockquote>
+<p>注意：如果我们想做的事情不需要从环境中捕获值，我们可以使用函数名而不是闭包。例如，我们可以在 <code>Option&lt;Vec&lt;T&gt;&gt;</code> 值上调用 <code>unwrap_or_else(Vec::new)</code>，如果值为 <code>None</code>，则获得一个新的空向量。编译器会自动为函数定义实现适用的 <code>Fn</code> 特性。</p>
+</blockquote>
+<p>现在让我们看看标准库中定义在切片上的 <code>sort_by_key</code> 方法，看看它与 <code>unwrap_or_else</code> 有何不同，以及为什么 <code>sort_by_key</code> 使用 <code>FnMut</code> 而不是 <code>FnOnce</code> 作为特性边界。闭包以对切片中当前项的引用的形式获取一个参数，并返回一个可以排序的 <code>K</code> 类型的值。当你想按每个项的特定属性对切片进行排序时，此函数很有用。在代码清单 13-7 中，我们有一个 <code>Rectangle</code> 实例列表，我们使用 <code>sort_by_key</code> 按它们的 <code>width</code> 属性从低到高排序：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
+
+    list.sort_by_key(|r| r.width);
+    println!("{list:#?}");
+}</code></pre></pre>
+<figcaption>Listing 13-7: 使用 <code>sort_by_key</code> 按宽度排序矩形</figcaption>
+</figure>
+<p>这段代码打印：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling rectangles v0.1.0 (file:///projects/rectangles)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.41s
+     Running `target/debug/rectangles`
+[
+    Rectangle {
+        width: 3,
+        height: 5,
+    },
+    Rectangle {
+        width: 7,
+        height: 12,
+    },
+    Rectangle {
+        width: 10,
+        height: 1,
+    },
+]
+</code></pre>
+<p><code>sort_by_key</code> 被定义为接受 <code>FnMut</code> 闭包的原因是它多次调用闭包：对切片中的每个项调用一次。闭包 <code>|r| r.width</code> 不捕获、改变或移出环境中的任何内容，因此它满足特性边界要求。</p>
+<p>相比之下，代码清单 13-8 显示了一个仅实现 <code>FnOnce</code> 特性的闭包示例，因为它从环境中移出了一个值。编译器不会让我们将此闭包与 <code>sort_by_key</code> 一起使用：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
+
+    let mut sort_operations = vec![];
+    let value = String::from("closure called");
+
+    list.sort_by_key(|r| {
+        sort_operations.push(value);
+        r.width
+    });
+    println!("{list:#?}");
+}</code></pre>
+<figcaption>Listing 13-8: 尝试将 <code>FnOnce</code> 闭包与 <code>sort_by_key</code> 一起使用</figcaption>
+</figure>
+<p>这是一种人为的、复杂的方式（不起作用）来尝试计算 <code>sort_by_key</code> 在排序 <code>list</code> 时调用闭包的次数。此代码试图通过将 <code>value</code>——闭包环境中的一个 <code>String</code>——推入 <code>sort_operations</code> 向量来进行此计数。闭包捕获 <code>value</code>，然后通过将 <code>value</code> 的所有权转移到 <code>sort_operations</code> 向量来将 <code>value</code> 移出闭包。此闭包可以被调用一次；尝试第二次调用它将不起作用，因为 <code>value</code> 将不再在环境中被推入 <code>sort_operations</code> 中！因此，此闭包仅实现 <code>FnOnce</code>。当我们尝试编译此代码时，我们得到此错误，指出 <code>value</code> 不能从闭包中移出，因为闭包必须实现 <code>FnMut</code>：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling rectangles v0.1.0 (file:///projects/rectangles)
+error[E0507]: cannot move out of `value`, a captured variable in an `FnMut` closure
+  --&gt; src/main.rs:18:30
+   |
+15 |     let value = String::from("closure called");
+   |         ----- captured outer variable
+16 |
+17 |     list.sort_by_key(|r| {
+   |                      --- captured by this `FnMut` closure
+18 |         sort_operations.push(value);
+   |                              ^^^^^ move occurs because `value` has type `String`, which does not implement the `Copy` trait
+   |
+help: consider cloning the value if the performance cost is acceptable
+   |
+18 |         sort_operations.push(value.clone());
+   |                                   ++++++++
+
+For more information about this error, try `rustc --explain E0507`.
+error: could not compile `rectangles` (bin "rectangles") due to 1 previous error
+</code></pre>
+<p>错误指向闭包主体中将 <code>value</code> 移出环境的行。要修复此问题，我们需要更改闭包主体，使其不移出环境中的值。在环境中保留一个计数器并在闭包主体中增加其值是计算闭包调用次数的更直接的方法。代码清单 13-9 中的闭包与 <code>sort_by_key</code> 一起工作，因为它只捕获了对 <code>num_sort_operations</code> 计数器的可变引用，因此可以被多次调用：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+fn main() {
+    let mut list = [
+        Rectangle { width: 10, height: 1 },
+        Rectangle { width: 3, height: 5 },
+        Rectangle { width: 7, height: 12 },
+    ];
+
+    let mut num_sort_operations = 0;
+    list.sort_by_key(|r| {
+        num_sort_operations += 1;
+        r.width
+    });
+    println!("{list:#?}, sorted in {num_sort_operations} operations");
+}</code></pre></pre>
+<figcaption>Listing 13-9: 允许使用 <code>FnMut</code> 闭包与 <code>sort_by_key</code></figcaption>
+</figure>
+<p><code>Fn</code> 特性在定义或使用利用闭包的函数或类型时非常重要。在下一节中，我们将讨论迭代器。许多迭代器方法接受闭包参数，因此在我们继续时请记住这些闭包细节！</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch13-00-functional-features.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch13-02-iterators.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch13-00-functional-features.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch13-02-iterators.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

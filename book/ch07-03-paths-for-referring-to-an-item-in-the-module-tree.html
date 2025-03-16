@@ -1,0 +1,441 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>引用模块树中某个项的路径 - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="模块树中引用项的路径"><a class="header" href="#模块树中引用项的路径">模块树中引用项的路径</a></h2>
+<p>为了告诉 Rust 在模块树中查找某个项的位置，我们使用路径，就像在文件系统中导航时使用路径一样。要调用一个函数，我们需要知道它的路径。</p>
+<p>路径可以有两种形式：</p>
+<ul>
+<li><strong>绝对路径</strong> 是从 crate 根开始的完整路径；对于外部 crate 的代码，绝对路径以 crate 名称开头，而对于当前 crate 的代码，它以字面量 <code>crate</code> 开头。</li>
+<li><strong>相对路径</strong> 从当前模块开始，使用 <code>self</code>、<code>super</code> 或当前模块中的标识符。</li>
+</ul>
+<p>绝对路径和相对路径后面都跟着一个或多个由双冒号 (<code>::</code>) 分隔的标识符。</p>
+<p>回到 Listing 7-1，假设我们想调用 <code>add_to_waitlist</code> 函数。这相当于问：<code>add_to_waitlist</code> 函数的路径是什么？Listing 7-3 包含了 Listing 7-1，但删除了一些模块和函数。</p>
+<p>我们将展示两种从 crate 根定义的新函数 <code>eat_at_restaurant</code> 中调用 <code>add_to_waitlist</code> 函数的方法。这些路径是正确的，但还有一个问题会阻止这个示例按原样编译。我们稍后会解释原因。</p>
+<p><code>eat_at_restaurant</code> 函数是我们库 crate 的公共 API 的一部分，因此我们用 <code>pub</code> 关键字标记它。在 <a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html#exposing-paths-with-the-pub-keyword">“使用 <code>pub</code> 关键字暴露路径”</a><!-- ignore --> 部分，我们将详细介绍 <code>pub</code>。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust ignore does_not_compile">mod front_of_house {
+    mod hosting {
+        fn add_to_waitlist() {}
+    }
+}
+
+pub fn eat_at_restaurant() {
+    // Absolute path
+    crate::front_of_house::hosting::add_to_waitlist();
+
+    // Relative path
+    front_of_house::hosting::add_to_waitlist();
+}</code></pre>
+<figcaption>Listing 7-3: 使用绝对路径和相对路径调用 <code>add_to_waitlist</code> 函数</figcaption>
+</figure>
+<p>在 <code>eat_at_restaurant</code> 中第一次调用 <code>add_to_waitlist</code> 函数时，我们使用了绝对路径。<code>add_to_waitlist</code> 函数与 <code>eat_at_restaurant</code> 定义在同一个 crate 中，这意味着我们可以使用 <code>crate</code> 关键字来开始绝对路径。然后我们依次包含每个后续模块，直到找到 <code>add_to_waitlist</code>。你可以想象一个具有相同结构的文件系统：我们会指定路径 <code>/front_of_house/hosting/add_to_waitlist</code> 来运行 <code>add_to_waitlist</code> 程序；使用 <code>crate</code> 名称从 crate 根开始，就像在 shell 中使用 <code>/</code> 从文件系统根开始一样。</p>
+<p>在 <code>eat_at_restaurant</code> 中第二次调用 <code>add_to_waitlist</code> 时，我们使用了相对路径。路径以 <code>front_of_house</code> 开头，这是与 <code>eat_at_restaurant</code> 定义在同一模块树级别的模块名称。这里的文件系统等效路径是使用路径 <code>front_of_house/hosting/add_to_waitlist</code>。以模块名称开头意味着路径是相对的。</p>
+<p>选择使用相对路径还是绝对路径是基于项目的决定，这取决于你是否更有可能将项定义代码与使用该项的代码分开移动或一起移动。例如，如果我们将 <code>front_of_house</code> 模块和 <code>eat_at_restaurant</code> 函数移动到一个名为 <code>customer_experience</code> 的模块中，我们需要更新 <code>add_to_waitlist</code> 的绝对路径，但相对路径仍然有效。然而，如果我们将 <code>eat_at_restaurant</code> 函数单独移动到一个名为 <code>dining</code> 的模块中，<code>add_to_waitlist</code> 调用的绝对路径将保持不变，但相对路径需要更新。我们通常倾向于指定绝对路径，因为我们更有可能希望独立地移动代码定义和项调用。</p>
+<p>让我们尝试编译 Listing 7-3，看看为什么它还不能编译！我们得到的错误如 Listing 7-4 所示。</p>
+<figure class="listing">
+<pre><code class="language-console">$ cargo build
+   Compiling restaurant v0.1.0 (file:///projects/restaurant)
+error[E0603]: module `hosting` is private
+ --&gt; src/lib.rs:9:28
+  |
+9 |     crate::front_of_house::hosting::add_to_waitlist();
+  |                            ^^^^^^^  --------------- function `add_to_waitlist` is not publicly re-exported
+  |                            |
+  |                            private module
+  |
+note: the module `hosting` is defined here
+ --&gt; src/lib.rs:2:5
+  |
+2 |     mod hosting {
+  |     ^^^^^^^^^^^
+
+error[E0603]: module `hosting` is private
+  --&gt; src/lib.rs:12:21
+   |
+12 |     front_of_house::hosting::add_to_waitlist();
+   |                     ^^^^^^^  --------------- function `add_to_waitlist` is not publicly re-exported
+   |                     |
+   |                     private module
+   |
+note: the module `hosting` is defined here
+  --&gt; src/lib.rs:2:5
+   |
+2  |     mod hosting {
+   |     ^^^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0603`.
+error: could not compile `restaurant` (lib) due to 2 previous errors
+</code></pre>
+<figcaption>Listing 7-4: 构建 Listing 7-3 代码时的编译器错误</figcaption>
+</figure>
+<p>错误信息说 <code>hosting</code> 模块是私有的。换句话说，我们有 <code>hosting</code> 模块和 <code>add_to_waitlist</code> 函数的正确路径，但 Rust 不允许我们使用它们，因为它无法访问私有部分。在 Rust 中，所有项（函数、方法、结构体、枚举、模块和常量）默认情况下对父模块是私有的。如果你想使一个项（如函数或结构体）私有，你可以将其放在一个模块中。</p>
+<p>父模块中的项不能使用子模块中的私有项，但子模块中的项可以使用其祖先模块中的项。这是因为子模块封装并隐藏了它们的实现细节，但子模块可以看到它们定义的上下文。继续我们的比喻，将隐私规则想象成餐厅的后台：那里发生的事情对餐厅顾客是私有的，但办公室经理可以看到并操作他们经营的餐厅中的一切。</p>
+<p>Rust 选择让模块系统以这种方式工作，以便隐藏内部实现细节是默认行为。这样，你就知道可以更改内部代码的哪些部分而不会破坏外部代码。然而，Rust 确实给了你通过使用 <code>pub</code> 关键字将子模块代码的内部部分暴露给外部祖先模块的选项。</p>
+<h3 id="使用-pub-关键字暴露路径"><a class="header" href="#使用-pub-关键字暴露路径">使用 <code>pub</code> 关键字暴露路径</a></h3>
+<p>让我们回到 Listing 7-4 中的错误，它告诉我们 <code>hosting</code> 模块是私有的。我们希望父模块中的 <code>eat_at_restaurant</code> 函数能够访问子模块中的 <code>add_to_waitlist</code> 函数，因此我们用 <code>pub</code> 关键字标记 <code>hosting</code> 模块，如 Listing 7-5 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust ignore does_not_compile">mod front_of_house {
+    pub mod hosting {
+        fn add_to_waitlist() {}
+    }
+}
+
+// -- snip --
+<span class="boring">pub fn eat_at_restaurant() {
+</span><span class="boring">    // Absolute path
+</span><span class="boring">    crate::front_of_house::hosting::add_to_waitlist();
+</span><span class="boring">
+</span><span class="boring">    // Relative path
+</span><span class="boring">    front_of_house::hosting::add_to_waitlist();
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 7-5: 将 <code>hosting</code> 模块声明为 <code>pub</code> 以便从 <code>eat_at_restaurant</code> 中使用它</figcaption>
+</figure>
+<p>不幸的是，Listing 7-5 中的代码仍然导致编译器错误，如 Listing 7-6 所示。</p>
+<figure class="listing">
+<pre><code class="language-console">$ cargo build
+   Compiling restaurant v0.1.0 (file:///projects/restaurant)
+error[E0603]: function `add_to_waitlist` is private
+  --&gt; src/lib.rs:10:37
+   |
+10 |     crate::front_of_house::hosting::add_to_waitlist();
+   |                                     ^^^^^^^^^^^^^^^ private function
+   |
+note: the function `add_to_waitlist` is defined here
+  --&gt; src/lib.rs:3:9
+   |
+3  |         fn add_to_waitlist() {}
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+error[E0603]: function `add_to_waitlist` is private
+  --&gt; src/lib.rs:13:30
+   |
+13 |     front_of_house::hosting::add_to_waitlist();
+   |                              ^^^^^^^^^^^^^^^ private function
+   |
+note: the function `add_to_waitlist` is defined here
+  --&gt; src/lib.rs:3:9
+   |
+3  |         fn add_to_waitlist() {}
+   |         ^^^^^^^^^^^^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0603`.
+error: could not compile `restaurant` (lib) due to 2 previous errors
+</code></pre>
+<figcaption>Listing 7-6: 构建 Listing 7-5 代码时的编译器错误</figcaption>
+</figure>
+<p>发生了什么？在 <code>mod hosting</code> 前面添加 <code>pub</code> 关键字使模块变为公共的。有了这个更改，如果我们能访问 <code>front_of_house</code>，我们就能访问 <code>hosting</code>。但 <code>hosting</code> 的<strong>内容</strong>仍然是私有的；使模块公共并不会使其内容变为公共。模块上的 <code>pub</code> 关键字只允许其祖先模块中的代码引用它，而不是访问其内部代码。因为模块是容器，仅使模块公共并不能做太多事情；我们需要进一步选择使模块中的一个或多个项也变为公共。</p>
+<p>Listing 7-6 中的错误说 <code>add_to_waitlist</code> 函数是私有的。隐私规则适用于结构体、枚举、函数和方法以及模块。</p>
+<p>让我们也通过在 <code>add_to_waitlist</code> 函数的定义前添加 <code>pub</code> 关键字使其变为公共的，如 Listing 7-7 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground test_harness">mod front_of_house {
+    pub mod hosting {
+        pub fn add_to_waitlist() {}
+    }
+}
+
+// -- snip --
+<span class="boring">pub fn eat_at_restaurant() {
+</span><span class="boring">    // Absolute path
+</span><span class="boring">    crate::front_of_house::hosting::add_to_waitlist();
+</span><span class="boring">
+</span><span class="boring">    // Relative path
+</span><span class="boring">    front_of_house::hosting::add_to_waitlist();
+</span><span class="boring">}</span></code></pre>
+<figcaption>Listing 7-7: 将 <code>pub</code> 关键字添加到 <code>mod hosting</code> 和 <code>fn add_to_waitlist</code> 允许我们从 <code>eat_at_restaurant</code> 调用该函数</figcaption>
+</figure>
+<p>现在代码将编译！为了了解为什么添加 <code>pub</code> 关键字允许我们在 <code>eat_at_restaurant</code> 中使用这些路径，让我们看一下绝对路径和相对路径。</p>
+<p>在绝对路径中，我们从 <code>crate</code> 开始，这是我们 crate 模块树的根。<code>front_of_house</code> 模块定义在 crate 根中。虽然 <code>front_of_house</code> 不是公共的，但因为 <code>eat_at_restaurant</code> 函数与 <code>front_of_house</code> 定义在同一个模块中（即 <code>eat_at_restaurant</code> 和 <code>front_of_house</code> 是兄弟），我们可以从 <code>eat_at_restaurant</code> 引用 <code>front_of_house</code>。接下来是标记为 <code>pub</code> 的 <code>hosting</code> 模块。我们可以访问 <code>hosting</code> 的父模块，因此我们可以访问 <code>hosting</code>。最后，<code>add_to_waitlist</code> 函数标记为 <code>pub</code>，我们可以访问其父模块，因此这个函数调用是有效的！</p>
+<p>在相对路径中，逻辑与绝对路径相同，除了第一步：路径不是从 crate 根开始，而是从 <code>front_of_house</code> 开始。<code>front_of_house</code> 模块与 <code>eat_at_restaurant</code> 定义在同一个模块中，因此从 <code>eat_at_restaurant</code> 定义的模块开始的相对路径是有效的。然后，因为 <code>hosting</code> 和 <code>add_to_waitlist</code> 标记为 <code>pub</code>，路径的其余部分也是有效的，这个函数调用是有效的！</p>
+<p>如果你计划共享你的库 crate 以便其他项目可以使用你的代码，你的公共 API 是你与 crate 用户的合同，决定了他们如何与你的代码交互。有许多关于管理公共 API 更改的考虑，以使人们更容易依赖你的 crate。这些考虑超出了本书的范围；如果你对这个主题感兴趣，请参阅 <a href="https://rust-lang.github.io/api-guidelines/">The Rust API Guidelines</a>。</p>
+<section class="note" aria-role="note">
+<h4 id="包含二进制文件和库的包的最佳实践"><a class="header" href="#包含二进制文件和库的包的最佳实践">包含二进制文件和库的包的最佳实践</a></h4>
+<p>我们提到一个包可以同时包含一个 <em>src/main.rs</em> 二进制 crate 根和一个 <em>src/lib.rs</em> 库 crate 根，并且默认情况下两个 crate 都会使用包的名称。通常，包含库和二进制 crate 的包会在二进制 crate 中包含足够的代码来启动一个可执行文件，该可执行文件调用库 crate 中的代码。这使得其他项目可以受益于包提供的大部分功能，因为库 crate 的代码可以共享。</p>
+<p>模块树应该在 <em>src/lib.rs</em> 中定义。然后，任何公共项都可以通过在路径前加上包的名称在二进制 crate 中使用。二进制 crate 成为库 crate 的用户，就像完全外部的 crate 使用库 crate 一样：它只能使用公共 API。这有助于你设计一个好的 API；你不仅是作者，你还是客户！</p>
+<p>在 <a href="ch12-00-an-io-project.html">第 12 章</a><!-- ignore --> 中，我们将通过一个包含二进制 crate 和库 crate 的命令行程序来演示这种组织实践。</p>
+</section>
+<h3 id="使用-super-开始相对路径"><a class="header" href="#使用-super-开始相对路径">使用 <code>super</code> 开始相对路径</a></h3>
+<p>我们可以通过在路径开头使用 <code>super</code> 来构造从父模块开始的相对路径，而不是从当前模块或 crate 根开始。这就像在文件系统路径中使用 <code>..</code> 语法一样。使用 <code>super</code> 允许我们引用我们知道在父模块中的项，这可以使在模块树中重新排列模块时更容易，因为模块与父模块密切相关，但父模块可能有一天会被移动到模块树的其他位置。</p>
+<p>考虑 Listing 7-8 中的代码，它模拟了厨师修复错误订单并亲自将其送到顾客手中的情况。<code>back_of_house</code> 模块中定义的 <code>fix_incorrect_order</code> 函数通过指定以 <code>super</code> 开头的路径调用父模块中定义的 <code>deliver_order</code> 函数。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground test_harness">fn deliver_order() {}
+
+mod back_of_house {
+    fn fix_incorrect_order() {
+        cook_order();
+        super::deliver_order();
+    }
+
+    fn cook_order() {}
+}</code></pre>
+<figcaption>Listing 7-8: 使用以 <code>super</code> 开头的相对路径调用函数</figcaption>
+</figure>
+<p><code>fix_incorrect_order</code> 函数在 <code>back_of_house</code> 模块中，因此我们可以使用 <code>super</code> 进入 <code>back_of_house</code> 的父模块，在本例中是 <code>crate</code>，即根。从那里，我们查找 <code>deliver_order</code> 并找到它。成功！我们认为 <code>back_of_house</code> 模块和 <code>deliver_order</code> 函数可能会保持彼此的关系，并在我们决定重新组织 crate 的模块树时一起移动。因此，我们使用了 <code>super</code>，以便将来如果这段代码被移动到不同的模块中，我们需要更新的代码会更少。</p>
+<h3 id="使结构体和枚举变为公共"><a class="header" href="#使结构体和枚举变为公共">使结构体和枚举变为公共</a></h3>
+<p>我们也可以使用 <code>pub</code> 来将结构体和枚举标记为公共的，但在结构体和枚举中使用 <code>pub</code> 有一些额外的细节。如果我们在结构体定义前使用 <code>pub</code>，我们使结构体变为公共的，但结构体的字段仍然是私有的。我们可以逐个字段决定是否使其变为公共的。在 Listing 7-9 中，我们定义了一个公共的 <code>back_of_house::Breakfast</code> 结构体，其中 <code>toast</code> 字段是公共的，但 <code>seasonal_fruit</code> 字段是私有的。这模拟了餐厅中顾客可以选择餐点中的面包类型，但厨师根据季节和库存决定搭配的水果的情况。可用的水果变化很快，因此顾客不能选择水果，甚至看不到他们将得到哪种水果。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">mod back_of_house {
+    pub struct Breakfast {
+        pub toast: String,
+        seasonal_fruit: String,
+    }
+
+    impl Breakfast {
+        pub fn summer(toast: &amp;str) -&gt; Breakfast {
+            Breakfast {
+                toast: String::from(toast),
+                seasonal_fruit: String::from("peaches"),
+            }
+        }
+    }
+}
+
+pub fn eat_at_restaurant() {
+    // Order a breakfast in the summer with Rye toast.
+    let mut meal = back_of_house::Breakfast::summer("Rye");
+    // Change our mind about what bread we'd like.
+    meal.toast = String::from("Wheat");
+    println!("I'd like {} toast please", meal.toast);
+
+    // The next line won't compile if we uncomment it; we're not allowed
+    // to see or modify the seasonal fruit that comes with the meal.
+    // meal.seasonal_fruit = String::from("blueberries");
+}</code></pre>
+<figcaption>Listing 7-9: 一个带有一些公共字段和一些私有字段的结构体</figcaption>
+</figure>
+<p>因为 <code>back_of_house::Breakfast</code> 结构体中的 <code>toast</code> 字段是公共的，所以在 <code>eat_at_restaurant</code> 中我们可以使用点符号写入和读取 <code>toast</code> 字段。注意，我们不能在 <code>eat_at_restaurant</code> 中使用 <code>seasonal_fruit</code> 字段，因为 <code>seasonal_fruit</code> 是私有的。尝试取消注释修改 <code>seasonal_fruit</code> 字段值的行，看看你会得到什么错误！</p>
+<p>另外，请注意，因为 <code>back_of_house::Breakfast</code> 有一个私有字段，结构体需要提供一个公共的关联函数来构造 <code>Breakfast</code> 的实例（我们在这里将其命名为 <code>summer</code>）。如果 <code>Breakfast</code> 没有这样的函数，我们就不能在 <code>eat_at_restaurant</code> 中创建 <code>Breakfast</code> 的实例，因为我们不能在 <code>eat_at_restaurant</code> 中设置私有字段 <code>seasonal_fruit</code> 的值。</p>
+<p>相比之下，如果我们使枚举变为公共的，它的所有变体也会变为公共的。我们只需要在 <code>enum</code> 关键字前加上 <code>pub</code>，如 Listing 7-10 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">mod back_of_house {
+    pub enum Appetizer {
+        Soup,
+        Salad,
+    }
+}
+
+pub fn eat_at_restaurant() {
+    let order1 = back_of_house::Appetizer::Soup;
+    let order2 = back_of_house::Appetizer::Salad;
+}</code></pre>
+<figcaption>Listing 7-10: 将枚举标记为公共的会使它的所有变体变为公共的。</figcaption>
+</figure>
+<p>因为我们使 <code>Appetizer</code> 枚举变为公共的，所以我们可以在 <code>eat_at_restaurant</code> 中使用 <code>Soup</code> 和 <code>Salad</code> 变体。</p>
+<p>枚举的变体如果不公开就没有什么用处；如果必须在每种情况下都用 <code>pub</code> 注释所有枚举变体，那将非常烦人，因此枚举变体的默认行为是公开的。结构体通常在没有其字段公开的情况下也很有用，因此结构体字段遵循默认情况下所有内容都是私有的规则，除非用 <code>pub</code> 注释。</p>
+<p>还有一种涉及 <code>pub</code> 的情况我们还没有介绍，这是我们最后一个模块系统特性：<code>use</code> 关键字。我们将首先单独介绍 <code>use</code>，然后展示如何将 <code>pub</code> 和 <code>use</code> 结合使用。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch07-02-defining-modules-to-control-scope-and-privacy.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch07-02-defining-modules-to-control-scope-and-privacy.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>

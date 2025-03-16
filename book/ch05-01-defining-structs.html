@@ -1,0 +1,480 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>定义和实例化结构体 - Rust编程语言</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris.css">
+        <link rel="stylesheet" href="theme/2018-edition.css">
+        <link rel="stylesheet" href="theme/semantic-notes.css">
+        <link rel="stylesheet" href="theme/listing.css">
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Rust编程语言</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/lxqddd/rust-book-cn" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="定义和实例化结构体"><a class="header" href="#定义和实例化结构体">定义和实例化结构体</a></h2>
+<p>结构体与元组类似，都是在<a href="ch03-02-data-types.html#the-tuple-type">“元组类型”</a><!-- ignore -->部分讨论的，两者都包含多个相关的值。与元组一样，结构体的各个部分可以是不同的类型。与元组不同的是，在结构体中，你会为每个数据片段命名，以便清楚地知道这些值的含义。添加这些名称意味着结构体比元组更灵活：你不必依赖数据的顺序来指定或访问实例的值。</p>
+<p>要定义一个结构体，我们使用关键字 <code>struct</code> 并为整个结构体命名。结构体的名称应描述被分组在一起的数据片段的重要性。然后，在大括号内，我们定义数据片段的名称和类型，这些数据片段称为 <em>字段</em>。例如，Listing 5-1 展示了一个存储用户账户信息的结构体。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">struct User {
+    active: bool,
+    username: String,
+    email: String,
+    sign_in_count: u64,
+}
+<span class="boring">
+</span><span class="boring">fn main() {}</span></code></pre></pre>
+<figcaption>Listing 5-1: 一个 <code>User</code> 结构体定义</figcaption>
+</figure>
+<p>在定义结构体之后，我们可以通过为每个字段指定具体的值来创建该结构体的 <em>实例</em>。我们通过声明结构体的名称来创建实例，然后添加包含 <em><code>key: value</code></em> 对的大括号，其中键是字段的名称，值是我们想要存储在这些字段中的数据。我们不必按照在结构体中声明字段的顺序来指定字段。换句话说，结构体定义就像是该类型的通用模板，而实例则用特定的数据填充该模板以创建该类型的值。例如，我们可以声明一个特定的用户，如 Listing 5-2 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let user1 = User {
+        active: true,
+        username: String::from("someusername123"),
+        email: String::from("someone@example.com"),
+        sign_in_count: 1,
+    };
+}</code></pre></pre>
+<figcaption>Listing 5-2: 创建一个 <code>User</code> 结构体的实例</figcaption>
+</figure>
+<p>要从结构体中获取特定的值，我们使用点号表示法。例如，要访问此用户的电子邮件地址，我们使用 <code>user1.email</code>。如果实例是可变的，我们可以通过点号表示法并赋值给特定字段来更改值。Listing 5-3 展示了如何更改可变 <code>User</code> 实例中 <code>email</code> 字段的值。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let mut user1 = User {
+        active: true,
+        username: String::from("someusername123"),
+        email: String::from("someone@example.com"),
+        sign_in_count: 1,
+    };
+
+    user1.email = String::from("anotheremail@example.com");
+}</code></pre></pre>
+<figcaption>Listing 5-3: 更改 <code>User</code> 实例中 <code>email</code> 字段的值</figcaption>
+</figure>
+<p>请注意，整个实例必须是可变的；Rust 不允许我们仅将某些字段标记为可变。与任何表达式一样，我们可以在函数体的最后一个表达式中构造一个新的结构体实例，以隐式返回该新实例。</p>
+<p>Listing 5-4 展示了一个 <code>build_user</code> 函数，该函数返回一个具有给定电子邮件和用户名的 <code>User</code> 实例。<code>active</code> 字段的值为 <code>true</code>，<code>sign_in_count</code> 的值为 <code>1</code>。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn build_user(email: String, username: String) -&gt; User {
+    User {
+        active: true,
+        username: username,
+        email: email,
+        sign_in_count: 1,
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let user1 = build_user(
+</span><span class="boring">        String::from("someone@example.com"),
+</span><span class="boring">        String::from("someusername123"),
+</span><span class="boring">    );
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 5-4: 一个 <code>build_user</code> 函数，它接受电子邮件和用户名并返回一个 <code>User</code> 实例</figcaption>
+</figure>
+<p>将函数参数命名为与结构体字段相同的名称是有意义的，但必须重复 <code>email</code> 和 <code>username</code> 字段名称和变量有点繁琐。如果结构体有更多字段，重复每个名称会更加烦人。幸运的是，有一个方便的简写！</p>
+<!-- 旧标题。不要删除或链接可能会中断。 -->
+<p><a id="using-the-field-init-shorthand-when-variables-and-fields-have-the-same-name"></a></p>
+<h3 id="使用字段初始化简写"><a class="header" href="#使用字段初始化简写">使用字段初始化简写</a></h3>
+<p>因为在 Listing 5-4 中参数名称和结构体字段名称完全相同，我们可以使用 <em>字段初始化简写</em> 语法来重写 <code>build_user</code>，使其行为完全相同，但不必重复 <code>username</code> 和 <code>email</code>，如 Listing 5-5 所示。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn build_user(email: String, username: String) -&gt; User {
+    User {
+        active: true,
+        username,
+        email,
+        sign_in_count: 1,
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let user1 = build_user(
+</span><span class="boring">        String::from("someone@example.com"),
+</span><span class="boring">        String::from("someusername123"),
+</span><span class="boring">    );
+</span><span class="boring">}</span></code></pre></pre>
+<figcaption>Listing 5-5: 一个 <code>build_user</code> 函数，使用字段初始化简写，因为 <code>username</code> 和 <code>email</code> 参数与结构体字段同名</figcaption>
+</figure>
+<p>在这里，我们正在创建一个 <code>User</code> 结构体的新实例，该结构体有一个名为 <code>email</code> 的字段。我们希望将 <code>email</code> 字段的值设置为 <code>build_user</code> 函数的 <code>email</code> 参数中的值。因为 <code>email</code> 字段和 <code>email</code> 参数具有相同的名称，我们只需要写 <code>email</code> 而不是 <code>email: email</code>。</p>
+<h3 id="使用结构体更新语法从其他实例创建实例"><a class="header" href="#使用结构体更新语法从其他实例创建实例">使用结构体更新语法从其他实例创建实例</a></h3>
+<p>通常，创建一个包含另一个实例的大部分值但更改某些值的新结构体实例非常有用。你可以使用 <em>结构体更新语法</em> 来实现这一点。</p>
+<p>首先，在 Listing 5-6 中，我们展示了如何在没有更新语法的情况下常规地创建一个新的 <code>User</code> 实例 <code>user2</code>。我们为 <code>email</code> 设置一个新值，但其他值使用我们在 Listing 5-2 中创建的 <code>user1</code> 的值。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    // --snip--
+<span class="boring">
+</span><span class="boring">    let user1 = User {
+</span><span class="boring">        email: String::from("someone@example.com"),
+</span><span class="boring">        username: String::from("someusername123"),
+</span><span class="boring">        active: true,
+</span><span class="boring">        sign_in_count: 1,
+</span><span class="boring">    };
+</span>
+    let user2 = User {
+        active: user1.active,
+        username: user1.username,
+        email: String::from("another@example.com"),
+        sign_in_count: user1.sign_in_count,
+    };
+}</code></pre></pre>
+<figcaption>Listing 5-6: 使用 <code>user1</code> 的所有值（除了一个）创建一个新的 <code>User</code> 实例</figcaption>
+</figure>
+<p>使用结构体更新语法，我们可以用更少的代码实现相同的效果，如 Listing 5-7 所示。语法 <code>..</code> 指定未显式设置的其余字段应与给定实例中的字段具有相同的值。</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024"><span class="boring">struct User {
+</span><span class="boring">    active: bool,
+</span><span class="boring">    username: String,
+</span><span class="boring">    email: String,
+</span><span class="boring">    sign_in_count: u64,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    // --snip--
+<span class="boring">
+</span><span class="boring">    let user1 = User {
+</span><span class="boring">        email: String::from("someone@example.com"),
+</span><span class="boring">        username: String::from("someusername123"),
+</span><span class="boring">        active: true,
+</span><span class="boring">        sign_in_count: 1,
+</span><span class="boring">    };
+</span>
+    let user2 = User {
+        email: String::from("another@example.com"),
+        ..user1
+    };
+}</code></pre></pre>
+<figcaption>Listing 5-7: 使用结构体更新语法为 <code>User</code> 实例设置一个新的 <code>email</code> 值，但使用 <code>user1</code> 的其余值</figcaption>
+</figure>
+<p>Listing 5-7 中的代码也在 <code>user2</code> 中创建了一个实例，该实例的 <code>email</code> 值不同，但 <code>username</code>、<code>active</code> 和 <code>sign_in_count</code> 字段的值与 <code>user1</code> 相同。<code>..user1</code> 必须放在最后，以指定任何剩余的字段应从 <code>user1</code> 中的相应字段获取其值，但我们可以选择以任何顺序为任意多个字段指定值，而不管这些字段在结构体定义中的顺序如何。</p>
+<p>请注意，结构体更新语法使用 <code>=</code> 类似于赋值；这是因为它会移动数据，就像我们在<a href="ch04-01-what-is-ownership.html#variables-and-data-interacting-with-move">“变量和数据交互：移动”</a><!-- ignore -->部分看到的那样。在这个例子中，我们在创建 <code>user2</code> 之后不能再使用 <code>user1</code>，因为 <code>user1</code> 的 <code>username</code> 字段中的 <code>String</code> 被移动到了 <code>user2</code> 中。如果我们为 <code>user2</code> 的 <code>email</code> 和 <code>username</code> 都提供了新的 <code>String</code> 值，因此只使用了 <code>user1</code> 的 <code>active</code> 和 <code>sign_in_count</code> 值，那么在创建 <code>user2</code> 之后，<code>user1</code> 仍然有效。<code>active</code> 和 <code>sign_in_count</code> 都是实现了 <code>Copy</code> trait 的类型，因此我们在<a href="ch04-01-what-is-ownership.html#stack-only-data-copy">“仅栈数据：复制”</a><!-- ignore -->部分讨论的行为将适用。在这个例子中，我们仍然可以使用 <code>user1.email</code>，因为它的值 <em>没有</em> 被移出。</p>
+<h3 id="使用没有命名字段的元组结构体创建不同类型"><a class="header" href="#使用没有命名字段的元组结构体创建不同类型">使用没有命名字段的元组结构体创建不同类型</a></h3>
+<p>Rust 还支持看起来类似于元组的结构体，称为 <em>元组结构体</em>。元组结构体具有结构体名称提供的额外含义，但没有与其字段关联的名称；相反，它们只有字段的类型。当你想要为整个元组命名并使元组成为与其他元组不同的类型时，元组结构体非常有用，而在常规结构体中为每个字段命名可能会显得冗长或多余。</p>
+<p>要定义一个元组结构体，以 <code>struct</code> 关键字和结构体名称开头，后跟元组中的类型。例如，这里我们定义并使用两个名为 <code>Color</code> 和 <code>Point</code> 的元组结构体：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">struct Color(i32, i32, i32);
+struct Point(i32, i32, i32);
+
+fn main() {
+    let black = Color(0, 0, 0);
+    let origin = Point(0, 0, 0);
+}</code></pre></pre>
+</figure>
+<p>请注意，<code>black</code> 和 <code>origin</code> 值是不同类型的，因为它们是不同元组结构体的实例。你定义的每个结构体都是其自己的类型，即使结构体中的字段可能具有相同的类型。例如，一个接受 <code>Color</code> 类型参数的函数不能接受 <code>Point</code> 作为参数，即使这两种类型都由三个 <code>i32</code> 值组成。除此之外，元组结构体实例与元组类似，你可以将它们解构为其单独的部分，并且可以使用 <code>.</code> 后跟索引来访问单个值。与元组不同，元组结构体在解构时需要命名结构体的类型。例如，我们会写 <code>let Point(x, y, z) = point</code>。</p>
+<h3 id="没有任何字段的类单元结构体"><a class="header" href="#没有任何字段的类单元结构体">没有任何字段的类单元结构体</a></h3>
+<p>你也可以定义没有任何字段的结构体！这些被称为 <em>类单元结构体</em>，因为它们的行为类似于 <code>()</code>，即我们在<a href="ch03-02-data-types.html#the-tuple-type">“元组类型”</a><!-- ignore -->部分提到的单元类型。当你需要在某个类型上实现 trait 但不想在该类型本身中存储任何数据时，类单元结构体非常有用。我们将在第 10 章讨论 trait。以下是一个声明和实例化名为 <code>AlwaysEqual</code> 的单元结构体的示例：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><pre class="playground"><code class="language-rust edition2024">struct AlwaysEqual;
+
+fn main() {
+    let subject = AlwaysEqual;
+}</code></pre></pre>
+</figure>
+<p>要定义 <code>AlwaysEqual</code>，我们使用 <code>struct</code> 关键字，然后是我们想要的名称，然后是一个分号。不需要大括号或圆括号！然后我们可以以类似的方式在 <code>subject</code> 变量中获取 <code>AlwaysEqual</code> 的实例：使用我们定义的名称，不需要任何大括号或圆括号。想象一下，稍后我们将为这种类型实现行为，使得每个 <code>AlwaysEqual</code> 实例总是等于任何其他类型的实例，可能是为了测试目的而具有已知结果。我们不需要任何数据来实现这种行为！你将在第 10 章看到如何定义 trait 并在任何类型（包括类单元结构体）上实现它们。</p>
+<section class="note" aria-role="note">
+<h3 id="结构体数据的所有权"><a class="header" href="#结构体数据的所有权">结构体数据的所有权</a></h3>
+<p>在 Listing 5-1 的 <code>User</code> 结构体定义中，我们使用了拥有的 <code>String</code> 类型，而不是 <code>&amp;str</code> 字符串切片类型。这是一个有意的选择，因为我们希望此结构体的每个实例都拥有其所有数据，并且这些数据在整个结构体有效期间都有效。</p>
+<p>结构体也可以存储对其他地方拥有的数据的引用，但这样做需要使用 <em>生命周期</em>，这是 Rust 的一个特性，我们将在第 10 章讨论。生命周期确保结构体引用的数据在结构体有效期间有效。假设你尝试在结构体中存储一个引用而不指定生命周期，如下所示；这将无法工作：</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
+<pre><code class="language-rust ignore does_not_compile">struct User {
+    active: bool,
+    username: &amp;str,
+    email: &amp;str,
+    sign_in_count: u64,
+}
+
+fn main() {
+    let user1 = User {
+        active: true,
+        username: "someusername123",
+        email: "someone@example.com",
+        sign_in_count: 1,
+    };
+}</code></pre>
+</figure>
+<p>编译器会抱怨需要生命周期说明符：</p>
+<pre><code class="language-console">$ cargo run
+   Compiling structs v0.1.0 (file:///projects/structs)
+error[E0106]: missing lifetime specifier
+ --&gt; src/main.rs:3:15
+  |
+3 |     username: &amp;str,
+  |               ^ expected named lifetime parameter
+  |
+help: consider introducing a named lifetime parameter
+  |
+1 ~ struct User&lt;'a&gt; {
+2 |     active: bool,
+3 ~     username: &amp;'a str,
+  |
+
+error[E0106]: missing lifetime specifier
+ --&gt; src/main.rs:4:12
+  |
+4 |     email: &amp;str,
+  |            ^ expected named lifetime parameter
+  |
+help: consider introducing a named lifetime parameter
+  |
+1 ~ struct User&lt;'a&gt; {
+2 |     active: bool,
+3 |     username: &amp;str,
+4 ~     email: &amp;'a str,
+  |
+
+For more information about this error, try `rustc --explain E0106`.
+error: could not compile `structs` (bin "structs") due to 2 previous errors
+</code></pre>
+<p>在第 10 章，我们将讨论如何修复这些错误，以便你可以在结构体中存储引用，但现在，我们将使用拥有的类型（如 <code>String</code>）而不是引用（如 <code>&amp;str</code>）来修复这些错误。</p>
+</section>
+<!-- manual-regeneration
+for the error above
+after running update-rustc.sh:
+pbcopy < listings/ch05-using-structs-to-structure-related-data/no-listing-02-reference-in-struct/output.txt
+paste above
+add `> ` before every line -->
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch05-00-structs.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="ch05-02-example-structs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch05-00-structs.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="ch05-02-example-structs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris.js"></script>
+
+
+    </div>
+    </body>
+</html>
