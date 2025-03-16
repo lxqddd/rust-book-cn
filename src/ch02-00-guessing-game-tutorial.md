@@ -542,4 +542,78 @@ note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
 
 </Listing>
 
-我们从 `expect` 调用
+我们从 `expect` 调用切换到 `match` 表达式，以从在错误时崩溃转变为处理错误。记住 `parse` 返回一个 `Result` 类型，而 `Result` 是一个枚举，包含 `Ok` 和 `Err` 两个变体。我们在这里使用 `match` 表达式，就像我们在 `cmp` 方法的 `Ordering` 结果中所做的那样。
+
+如果 `parse` 能够成功地将字符串转换为数字，它将返回一个包含结果数字的 `Ok` 值。那个 `Ok` 值将与第一个 `match` 臂的模式匹配，并且 `match` 表达式将直接返回 `parse` 产生的并放在 `Ok` 值中的 `num` 值。这个数字将正好出现在我们正在创建的新 `guess` 变量中我们希望的位置。
+
+如果 `parse` _不能_ 将字符串转换为数字，它将返回一个包含有关错误更多信息的 `Err` 值。`Err` 值不匹配第一个 `match` 臂中的 `Ok(num)` 模式，但它确实匹配第二个臂中的 `Err(_)` 模式。下划线 `_` 是一个通配符值；在这个例子中，我们说我们想要匹配所有 `Err` 值，不管它们内部包含什么信息。因此，程序将执行第二个臂的代码 `continue`，它告诉程序进入 `loop` 的下一次迭代并请求另一个猜测。因此，实际上，程序忽略了 `parse` 可能遇到的所有错误！
+
+现在程序中的所有内容都应该按预期工作。让我们试试看：
+
+<!-- manual-regeneration
+cd listings/ch02-guessing-game-tutorial/listing-02-05/
+cargo run
+(too small guess)
+(too big guess)
+foo
+(correct guess)
+-->
+
+```console
+$ cargo run
+   Compiling guessing_game v0.1.0 (file:///projects/guessing_game)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running `target/debug/guessing_game`
+Guess the number!
+The secret number is: 61
+Please input your guess.
+10
+You guessed: 10
+Too small!
+Please input your guess.
+99
+You guessed: 99
+Too big!
+Please input your guess.
+foo
+Please input your guess.
+61
+You guessed: 61
+You win!
+```
+
+太棒了！只需进行一个微小的最终调整，我们就能完成猜数字游戏。回想一下，程序仍然在打印秘密数字。这对测试很有用，但会破坏游戏的乐趣。让我们删除输出秘密数字的 `println!`。清单 2-6 显示了最终代码。
+
+<Listing number="2-6" file-name="src/main.rs" caption="Complete guessing game code">
+
+```rust,ignore
+{{#rustdoc_include ../listings/ch02-guessing-game-tutorial/listing-02-06/src/main.rs}}
+```
+
+</Listing>
+
+至此，你已经成功构建了猜数字游戏。恭喜你！
+
+## 总结
+
+这个项目是一个实践性的方式，向你介绍了许多新的 Rust 概念：`let`、`match`、函数、外部 crate 的使用等等。在接下来的几章中，你将更详细地学习这些概念。第 3 章涵盖了大多数编程语言都有的概念，如变量、数据类型和函数，并展示了如何在 Rust 中使用它们。第 4 章探讨了所有权，这是 Rust 区别于其他语言的一个特性。第 5 章讨论了结构体和方法语法，第 6 章解释了枚举的工作原理。
+
+[prelude]: ../std/prelude/index.html
+[variables-and-mutability]: ch03-01-variables-and-mutability.html#variables-and-mutability
+[comments]: ch03-04-comments.html
+[string]: ../std/string/struct.String.html
+[iostdin]: ../std/io/struct.Stdin.html
+[read_line]: ../std/io/struct.Stdin.html#method.read_line
+[result]: ../std/result/enum.Result.html
+[enums]: ch06-00-enums.html
+[expect]: ../std/result/enum.Result.html#method.expect
+[recover]: ch09-02-recoverable-errors-with-result.html
+[randcrate]: https://crates.io/crates/rand
+[semver]: http://semver.org
+[cratesio]: https://crates.io/
+[doccargo]: https://doc.rust-lang.org/cargo/
+[doccratesio]: https://doc.rust-lang.org/cargo/reference/publishing.html
+[match]: ch06-02-match.html
+[shadowing]: ch03-01-variables-and-mutability.html#shadowing
+[parse]: ../std/primitive.str.html#method.parse
+[integers]: ch03-02-data-types.html#integer-types
