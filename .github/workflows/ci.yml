@@ -151,3 +151,4 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: ./deploy
           build-outputs: ./deploy
+          vercel-args: "--prod"
