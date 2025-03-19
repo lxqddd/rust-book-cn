@@ -109,7 +109,7 @@ jobs:
     env:
       MDBOOK_VERSION: 0.4.45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.1.1
       - name: Install mdBook
         run: |
           curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
@@ -129,16 +129,16 @@ jobs:
     environment: production
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.1
 
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.1
         with:
           name: static-site
           path: ./deploy
 
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v30
+        uses: amondnet/vercel-action@v30.2.4
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
