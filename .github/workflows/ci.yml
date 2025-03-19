@@ -116,7 +116,7 @@ jobs:
           rustup update
           cargo install --version ${MDBOOK_VERSION} mdbook
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.1.1
         with:
           name: static-site
           path: ./book
