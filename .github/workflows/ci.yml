@@ -1,6 +1,10 @@
 name: CI
 on: [push, pull_request]
 
+env:
+  ACTIONS_STEP_DEBUG: true
+  ACTIONS_RUNNER_DEBUG: true
+
 permissions:
   contents: read
   pages: write
@@ -138,7 +142,7 @@ jobs:
           path: ./deploy
 
       - name: Deploy to Vercel
-        uses: amondnet/vercel-action@v30
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
