@@ -109,14 +109,14 @@ jobs:
     env:
       MDBOOK_VERSION: 0.4.45
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4
       - name: Install mdBook
         run: |
           curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
           rustup update
           cargo install --version ${MDBOOK_VERSION} mdbook
       - name: Upload artifact
-        uses: actions/upload-artifact@v4.1.1
+        uses: actions/upload-artifact@v4
         with:
           name: static-site
           path: ./book
@@ -129,10 +129,10 @@ jobs:
     environment: production
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4
 
       - name: Download artifact
-        uses: actions/download-artifact@v4.1.1
+        uses: actions/download-artifact@v4
         with:
           name: static-site
           path: ./deploy
