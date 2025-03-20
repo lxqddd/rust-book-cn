@@ -152,3 +152,4 @@ jobs:
           working-directory: ./deploy
           build-outputs: ./deploy
           vercel-args: "--prod"
+          scope: ${{ secrets.VERCEL_ORG_ID }}
