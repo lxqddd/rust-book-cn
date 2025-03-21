@@ -150,6 +150,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           github-token: ${{ secrets.GIT_TOKEN }}
+          github-comment: false # 关闭评论功能
           working-directory: ./deploy
           build-outputs: ./deploy
           vercel-args: "--prod"
