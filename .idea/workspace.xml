@@ -7,7 +7,32 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f52075ef-a3b9-4f4f-b59d-5c5a86b95b4d" name="Changes" comment="" />
+    <list default="true" id="f52075ef-a3b9-4f4f-b59d-5c5a86b95b4d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/.rustc_info.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/.rustc_info.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/docopt-daa062fa2ad5200a/lib-docopt" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/docopt-daa062fa2ad5200a/lib-docopt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-17d972526a42af04/bin-remove_hidden_lines" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-17d972526a42af04/bin-remove_hidden_lines" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-2a247581e00bc9eb/bin-release_listings" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-2a247581e00bc9eb/bin-release_listings" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-2bf9b3008acbbdea/bin-convert_quotes" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-2bf9b3008acbbdea/bin-convert_quotes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-337210aeed47e1f4/bin-concat_chapters" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-337210aeed47e1f4/bin-concat_chapters" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-5507df19fbe26624/test-bin-remove_hidden_lines" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-5507df19fbe26624/test-bin-remove_hidden_lines" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-56f68e35e7a547d0/test-bin-concat_chapters" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-56f68e35e7a547d0/test-bin-concat_chapters" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-6201e56ee1d4c9b9/test-bin-lfp" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-6201e56ee1d4c9b9/test-bin-lfp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-6f67c2dd8a0abb30/test-bin-cleanup_blockquotes" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-6f67c2dd8a0abb30/test-bin-cleanup_blockquotes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-8d188f9801f38f88/test-bin-link2print" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-8d188f9801f38f88/test-bin-link2print" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-911fe75477ecdba3/bin-remove_markup" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-911fe75477ecdba3/bin-remove_markup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-9d29aea55c096a0a/bin-remove_links" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-9d29aea55c096a0a/bin-remove_links" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-a633437c06a869b4/bin-link2print" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-a633437c06a869b4/bin-link2print" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-a892a038c9b61753/test-bin-remove_links" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-a892a038c9b61753/test-bin-remove_links" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-b069d68f089744d6/bin-cleanup_blockquotes" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-b069d68f089744d6/bin-cleanup_blockquotes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-c0cb58e261c78911/bin-lfp" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-c0cb58e261c78911/bin-lfp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-c43dd50eb4e08361/test-bin-release_listings" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-c43dd50eb4e08361/test-bin-release_listings" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-e912d9ba15b0e06c/test-bin-convert_quotes" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-e912d9ba15b0e06c/test-bin-convert_quotes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-f06968aa68834f08/test-bin-remove_markup" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/rust-book-tools-f06968aa68834f08/test-bin-remove_markup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/tar-4e315edfcf0b580d/lib-tar" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/tar-4e315edfcf0b580d/lib-tar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/debug/.fingerprint/xattr-8b1ee9558d450776/lib-xattr" beforeDir="false" afterPath="$PROJECT_DIR$/target/debug/.fingerprint/xattr-8b1ee9558d450776/lib-xattr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/theme/head.hbs" beforeDir="false" afterPath="$PROJECT_DIR$/theme/head.hbs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,7 +58,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/liuxq/Desktop/projects/rust-book-cn&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -94,7 +119,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1742007366819</updated>
-      <workItem from="1742007367874" duration="34095000" />
+      <workItem from="1742007367874" duration="34899000" />
+      <workItem from="1742600306858" duration="1215000" />
+      <workItem from="1742602360873" duration="662000" />
+      <workItem from="1742631257734" duration="359000" />
     </task>
     <servers />
   </component>
